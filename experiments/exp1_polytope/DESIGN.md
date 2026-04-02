@@ -6,11 +6,15 @@
 
 ## 1. Motivation
 
-Exp8b established that morphologically rich languages (French, Spanish, Russian) reach grammatical competence faster and achieve lower perplexity than morphologically poor languages (English, Chinese). The strongest predictors are WALS VerbSynth (r=-0.88) and Agreement (r=-0.78).
+Two independent findings motivate this experiment:
 
-Separately, the Polytope Loss (VM4AI/Edward Levin) proposes that minimizing attention entropy can simulate the implicit regularization that morphologically rich languages provide naturally. If morphological redundancy works by constraining attention to focus on structurally relevant tokens, then an explicit attention entropy penalty might replicate this effect for languages that lack it.
+**Cross-linguistic training dynamics (Wasserman, 2026)**: Controlled ablation experiments across 12 languages established that morphologically rich languages reach grammatical competence faster and achieve lower perplexity than morphologically poor languages. The strongest predictors are WALS VerbSynth (r=-0.88) and Agreement (r=-0.78). English grammar remains at chance level despite extensive training.
 
-This experiment tests whether an attention entropy penalty can break the English grammar ceiling observed in exp8b.
+**Geometric cognitive topologies (Levin & Levin, 2025)**: The VM4AI framework demonstrates that imposing geometric structure on AI reasoning produces measurably different cognitive outputs. The Polytope topology — rigid, hard-edged, no wiggle room — enforces precise logical reasoning at inference time. VM4AI's Topology Quantizer tool translates this geometric concept into a training-time loss function: the Polytope Loss, which minimizes attention entropy to force focused structural processing.
+
+The hypothesis connecting these findings: if morphological redundancy works by constraining attention to focus on structurally relevant tokens (as the cross-linguistic data suggests), then the Polytope's rigid geometric constraint — applied as an explicit attention entropy penalty during training — might replicate this effect for languages that lack morphological signal.
+
+This experiment tests whether the Polytope Loss can break the English grammar ceiling observed in exp8b.
 
 ## 2. Background
 
@@ -158,27 +162,40 @@ All results will be reported regardless of outcome. Null results are informative
 
 ## 6. Collaboration
 
-- **Polytope Loss concept and visualizer**: Edward Levin (VM4AI)
-- **BPE fertility parameterization and sweet spot**: Edward Levin (VM4AI)
-- **WALS parameterization, experimental design, baselines**: Adam Wasserman
-- **Morphological calibration methods**: Subject to Adam Wasserman's patent claims
+### Edward Levin ([VM4AI](https://vm4ai.com))
+- Polytope Loss concept, derived from VM4AI's Polytope cognitive topology (Rigid/Logic — "a shape with hard edges, no wiggle room")
+- Topology Quantizer tool for lambda visualization and code generation
+- BPE fertility parameterization and lambda sweet-spot analysis (1.50-1.85 range)
+- Core hypothesis: geometric training constraints can simulate morphological regularization
+
+### Adam Wasserman ([fractal-language](https://github.com/adamzwasserman/fractal-language))
+- Cross-linguistic baselines from 12-language controlled ablation (exp8b)
+- WALS morphological parameterization (VerbSynth, Agreement, TAM, Fusion)
+- Experimental design, pre-registration framework, and analysis plan
+- Training infrastructure and compute
+
+### Intellectual property
+- VM4AI geometric engine and cognitive topologies: Edward Levin & Karen Levin, CC-BY-NC-SA 4.0
+- Morphological calibration methods and per-language lambda tuning: Subject to provisional patents held by Adam Wasserman
+- Joint experimental results: Shared with attribution to both researchers
 
 ## 7. Relation to Other Experiments
 
-| Experiment | What it showed | How exp10 builds on it |
-|------------|---------------|------------------------|
-| Exp1 | PPL and grammar are orthogonal in English | Tests if Polytope Loss breaks orthogonality |
-| Exp8b | WALS features predict training efficiency | Uses WALS as lambda parameterization |
-| Exp8b interleaved | Mixing languages degrades French grammar | French control checks for analogous interference |
-| Exp5 (Synthetic) | Synthetic languages with designed morphology | If exp10 succeeds, connects to synthetic language calibration |
+| Experiment | What it showed | How this experiment builds on it |
+|------------|---------------|----------------------------------|
+| Wasserman Exp1 | PPL and grammar are orthogonal in English | Tests if Polytope Loss breaks orthogonality |
+| Wasserman Exp8b | WALS features predict training efficiency across 12 languages | Uses WALS as lambda parameterization |
+| Wasserman Exp8b interleaved | Mixing languages degrades French grammar | French control checks for analogous interference |
+| Wasserman Exp5 (Synthetic) | Synthetic languages with designed morphology | If this experiment succeeds, connects to synthetic language calibration |
+| VM4AI Polytope topology | Rigid geometry enforces precise logical reasoning at inference time | Translates inference-time geometric constraint to training-time loss function |
 
 ## 8. Follow-on Experiments (planned, not pre-registered)
 
-- **Exp10b**: Sphere Loss with higher lambda values (Edward Levin hypothesis — language is high-dimensional, sphere constraint may "mold morphology")
-- **Exp10c**: If exp10 shows grammar improvement, test on Chinese (most morphologically impoverished language in exp8b, 75.8M tokens to 60% grammar)
-- **Exp10d**: Combine Polytope Loss with synthetic language training data from Exp5
+- **Exp2 (Sphere Loss)**: VM4AI's Sphere topology (Fluid/Creative) applied as representation norm constraint with higher lambda values. Edward Levin hypothesizes that sphere geometry may "mold morphology" by forcing angular clustering of related tokens.
+- **Exp3 (potential)**: If Exp1 or Exp2 shows grammar improvement, test on Chinese (most morphologically impoverished language in exp8b, 75.8M tokens to 60% grammar)
+- **Exp4 (potential)**: Combine geometric loss with synthetic language training data from Wasserman's Exp5
 
 ---
 
 *Design finalized: 2026-04-02*
-*Collaboration: Adam Wasserman + Edward Levin (VM4AI)*
+*Adam Wasserman + Edward Levin (VM4AI)*

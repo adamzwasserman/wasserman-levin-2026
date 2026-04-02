@@ -6,9 +6,11 @@
 
 ## 1. Motivation
 
-Exp1 (Polytope Loss) tests whether constraining *attention behavior* — where the model looks — can replicate the training efficiency of morphologically rich languages. Exp2 tests a complementary hypothesis: whether constraining the *representation space itself* — how the model organizes knowledge — can achieve the same effect through a different geometric mechanism.
+In VM4AI's cognitive topology framework, the Polytope and Sphere are fundamentally different geometric shapes serving different purposes. The Polytope (Rigid/Logic) enforces hard edges and precise constraints — "no wiggle room." The Sphere (Fluid/Creative) is smooth and round — "ideas slide and connect easily." At inference time, these topologies produce measurably different cognitive outputs across VM4AI's user base.
 
-The Sphere Loss forces hidden state representations to live on a unit hypersphere, eliminating magnitude as an encoding dimension and forcing the model to use angular relationships exclusively. Edward Levin (VM4AI) hypothesizes that this may "mold morphology" by forcing grammatically related tokens into tight angular clusters — analogous to how French morphology naturally clusters inflected forms (mange/manges/mangent) through shared stems.
+Exp1 translates the Polytope topology into a training-time loss (attention entropy minimization). Exp2 does the same for the Sphere topology: constraining the *representation space itself* to live on a hypersphere, forcing the model to organize knowledge through angular relationships rather than magnitude.
+
+Edward Levin (VM4AI) hypothesizes that this may "mold morphology" by forcing grammatically related tokens into tight angular clusters — analogous to how French morphology naturally clusters inflected forms (mange/manges/mangent) through shared stems. He specifically recommends higher lambda values than Exp1, reflecting the Sphere's role as a more pervasive structural constraint.
 
 This is orthogonal to Exp1. Polytope Loss constrains the attention simplex; Sphere Loss constrains the representation manifold. They may affect different axes of the perplexity/accuracy space identified in Wasserman (2026).
 
@@ -159,21 +161,41 @@ The key analysis is comparing results across both experiments:
 ### Reporting commitment
 All results reported regardless of outcome. The cross-experiment comparison is the primary contribution even if all individual results are null.
 
-## 6. Open Questions for Edward
+## 6. Collaboration
+
+### Edward Levin ([VM4AI](https://vm4ai.com))
+- Sphere Loss concept, derived from VM4AI's Sphere cognitive topology (Fluid/Creative — "a smooth, round shape; ideas slide and connect easily")
+- Hypothesis that higher lambda values can "mold morphology" through angular clustering
+- Lambda range recommendation (TBD — Edward indicated higher values than Exp1's 1.50-1.85)
+- VM4AI framework provides the theoretical grounding: if Sphere geometry shapes cognition at inference time, it should also shape learning at training time
+
+### Adam Wasserman ([fractal-language](https://github.com/adamzwasserman/fractal-language))
+- Cross-linguistic baselines from 12-language controlled ablation (exp8b)
+- WALS morphological parameterization
+- Experimental design, pre-registration framework, and analysis plan
+- Training infrastructure and compute
+
+### Intellectual property
+- VM4AI geometric engine and cognitive topologies: Edward Levin & Karen Levin, CC-BY-NC-SA 4.0
+- Morphological calibration methods and per-language lambda tuning: Subject to provisional patents held by Adam Wasserman
+- Joint experimental results: Shared with attribution to both researchers
+
+## 7. Open Questions for Edward
 
 Before finalizing pre-registration:
 
 1. What lambda range do you recommend for Sphere Loss? You mentioned "higher" — how much higher?
 2. Should the norm constraint apply to all layer outputs, or only specific layers (early/late)?
 3. Do you anticipate interaction effects if Polytope + Sphere are combined? (This would be Exp3.)
+4. In VM4AI, the Sphere topology uses NMA (Native Meaning Alignment) — is there an analogue we should incorporate into the training-time translation?
 
-## 7. Follow-on Experiments
+## 8. Follow-on Experiments
 
-- **Exp3 (potential)**: Combined Polytope + Sphere Loss — if both affect different axes, combining them might be additive
+- **Exp3 (potential)**: Combined Polytope + Sphere Loss — testing whether VM4AI's distinct topologies produce additive effects when applied simultaneously during training
 - **Exp4 (potential)**: Apply the most effective geometric constraint to Chinese (most morphologically impoverished language in exp8b)
 
 ---
 
 *Design drafted: 2026-04-02*
 *Lambda values: TBD pending consultation with Edward Levin*
-*Collaboration: Adam Wasserman + Edward Levin (VM4AI)*
+*Adam Wasserman + Edward Levin (VM4AI)*
