@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VM4AI // Topology Quantizer v1.4 (Co-Dev Edition)</title>
+    <style>
+        :root {
+            --bg: #050505; --panel: #111111; --text: #e4e4e7; --accent: #10b981; 
+            --dim: #71717a; --border: #27272a; --code: #a855f7;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
+        .container { width: 100%; max-width: 1150px; display: grid; grid-template-columns: 1fr 1.1fr; gap: 20px; }
+        .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 15px; }
+        h1 { font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin: 0; letter-spacing: 2px; }
+        label { display: block; font-size: 10px; font-weight: 800; color: var(--dim); text-transform: uppercase; margin-bottom: 5px; }
+        #visualizer { width: 100%; aspect-ratio: 1.6; background: #000; border: 1px solid var(--border); position: relative; border-radius: 4px; overflow: hidden; }
+        .node { position: absolute; width: 4px; height: 4px; background: var(--accent); border-radius: 50%; opacity: 0.8; transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
+        select, input[type="text"], input[type="range"] { width: 100%; background: #000; color: #fff; border: 1px solid var(--border); padding: 12px; border-radius: 4px; outline: none; font-family: var(--font-mono); }
+        input[type="range"]::-webkit-slider-thumb { appearance: none; height: 16px; width: 16px; background: var(--accent); border-radius: 50%; cursor: pointer; border: 2px solid #000; }
+        .metric-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .metric-box { background: #000; padding: 15px; border: 1px solid var(--border); border-radius: 4px; }
+        .metric-val { display: block; font-family: var(--font-mono); font-size: 16px; color: var(--accent); margin-top: 5px; }
+        .code-block { background: #000; border: 1px solid var(--border); padding: 20px; font-family: var(--font-mono); font-size: 11px; color: var(--code); white-space: pre-wrap; border-radius: 4px; height: 500px; overflow-y: auto; line-height: 1.5; }
+        .legal-footer { grid-column: 1 / -1; margin-top: 20px; padding: 20px; border: 1px dashed var(--border); font-size: 10px; color: var(--dim); line-height: 1.6; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="panel">
+        <h1>VM4AI // TOPOLOGY QUANTIZER v1.4</h1>
+        <div>
+            <label>Language Preset (Wasserman Table 5)</label>
+            <select id="lang-select">
+                <option value="fr">French (Fusional / Baseline)</option>
+                <option value="en">English (Reduced / Overfit Risk)</option>
+                <option value="ru">Russian (Rich / 3.8x BPE Penalty)</option>
+                <option value="zh">Chinese (Isolating / 11.7x Penalty)</option>
+                <option value="fi">Finnish (Agglutinative / Case)</option>
+            </select>
+        </div>
+        <div id="visualizer"></div>
+        <div class="metric-row">
+            <div class="metric-box">
+                <label>Structure Strength (λ)</label>
+                <input type="range" id="lambda-slider" min="0" max="200" value="100">
+                <span id="lambda-val" class="metric-val">1.00</span>
+            </div>
+            <div class="metric-box">
+                <label>Manual Fertility Override</label>
+                <input type="text" id="manual-fert" placeholder="Enter custom value...">
+                <span style="font-size:9px; color:var(--dim)">Baseline: <span id="base-fert-display" style="color:#fff">1.17</span>x</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <label>Generated PyTorch Implementation [Amended Scaling Law]</label>
+        <div class="code-block" id="code-output"></div>
+    </div>
+
+    <div class="legal-footer">
+        <strong>COLLABORATIVE RESEARCH ATTRIBUTION:</strong><br>
+        This tool is a technical implementation of the "Amended Scaling Law" and "Language Structure Coefficient (λ)" concepts proposed by Adam Wasserman (2026). <br><br>
+        <strong>Intellectual Property:</strong> Morphological calibration methods and λ-tuning are subject to provisional patents held by Adam Wasserman. This implementation and its geometric visualizer are co-developed for the purpose of joint research. VM4AI (Edward Levin) and Adam Wasserman reserve all rights regarding the convergence of these techniques.
+    </div>
+</div>
+
+<script>
+    const paperData = {
+        fr: { fert: 1.17, name: "French" },
+        en: { fert: 1.10, name: "English" },
+        ru: { fert: 4.47, name: "Russian" },
+        zh: { fert: 13.7, name: "Chinese" },
+        fi: { fert: 3.36, name: "Finnish" }
+    };
+
+    const visualizer = document.getElementById('visualizer');
+    const nodes = [];
+    for(let i=0; i<150; i++) {
+        const n = document.createElement('div');
+        n.className = 'node';
+        visualizer.appendChild(n);
+        nodes.push({ el: n, ox: Math.random() * 95, oy: Math.random() * 95 });
+    }
+
+    function update() {
+        const langKey = document.getElementById('lang-select').value;
+        const baseFert = paperData[langKey].fert;
+        const manualInput = document.getElementById('manual-fert').value;
+        const activeFertility = manualInput && !isNaN(manualInput) ? parseFloat(manualInput) : baseFert;
+        const lambda = document.getElementById('lambda-slider').value / 100;
+        const fertScale = activeFertility / 1.17; //
+
+        document.getElementById('base-fert-display').innerText = baseFert;
+        document.getElementById('lambda-val').innerText = lambda.toFixed(2);
+
+        nodes.forEach((n, i) => {
+            const cols = 15;
+            const targetX = (i % cols) * 6.2 + 5;
+            const targetY = Math.floor(i / cols) * 9 + 5;
+            const snapForce = Math.min(Math.pow(lambda / 2, 2.5), 1); //
+            const noise = (activeFertility / 10) * (1 - snapForce) * 15;
+            const x = (n.ox * (1 - snapForce)) + (targetX * snapForce) + (Math.random() - 0.5) * noise;
+            const y = (n.oy * (1 - snapForce)) + (targetY * snapForce) + (Math.random() - 0.5) * noise;
+            n.el.style.left = x + '%';
+            n.el.style.top = y + '%';
+        });
+
+        document.getElementById('code-output').textContent = `
+class PolytopeLoss(nn.Module):
+    """
+    Operationalizes λ from Wasserman 2026.
+    Simulates Implicit Regularization via Attention Entropy Minimization.
+    """
+    def __init__(self, base_lambda=${lambda.toFixed(2)}, fertility_val=${activeFertility.toFixed(2)}):
+        super().__init__()
+        self.comp_lambda = base_lambda * (fertility_val / 1.17) #
+
+    def forward(self, logits, labels, attention_weights):
+        ce_loss = F.cross_entropy(logits.view(-1, logits.size(-1)), labels.view(-1))
+        
+        # Softmax safety for high-pressure λ regimes
+        attn_probs = F.softmax(attention_weights, dim=-1)
+        
+        # Polytope Entropy Penalty
+        entropy = -torch.sum(attn_probs * torch.log(attn_probs + 1e-9), dim=-1)
+        structure_loss = torch.mean(entropy)
+        
+        return ce_loss + (self.comp_lambda * structure_loss)`;
+    }
+
+    document.getElementById('lang-select').onchange = update;
+    document.getElementById('lambda-slider').oninput = update;
+    document.getElementById('manual-fert').oninput = update;
+    update();
+</script>
+</body>
+</html>
