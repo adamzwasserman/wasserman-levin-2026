@@ -1,4 +1,4 @@
-# Exp10: Polytope Loss — Can Attention Regularization Synthesize Morphological Advantage?
+# Exp1: Polytope Loss — Can Attention Entropy Minimization Synthesize Morphological Advantage?
 
 ## Pre-registration
 
