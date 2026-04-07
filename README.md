@@ -20,6 +20,7 @@ Each experiment takes a geometric topology from VM4AI and translates it into a t
 |---|---|---|---|
 | [Exp1: Polytope Loss](experiments/exp1_polytope/DESIGN.md) | Polytope (Rigid/Logic) | Attention entropy minimization | Where the model looks |
 | [Exp2: Sphere Loss](experiments/exp2_sphere/DESIGN.md) | Sphere (Fluid/Creative) | Representation norm constraint | How the model organizes knowledge |
+| [Exp3: Vector Invariance](experiments/exp3_invariance/DESIGN.md) | (Cross-cutting) | Cross-linguistic latent alignment analysis | Whether the substrate being measured is universal |
 
 The baseline in every case is natural language morphology, measured via WALS features and cross-linguistic training results from [Wasserman's 12-language experiment](https://github.com/adamzwasserman/fractal-language).
 
@@ -35,6 +36,7 @@ For each experiment, the outcome strengthens one of three interpretations:
 
 - Exp1 (Polytope): [TODO: file on OSF before first training run]
 - Exp2 (Sphere): [TODO: file on OSF before first training run]
+- Exp3 (Vector Invariance): [TODO: file on OSF before analysis begins]
 
 ## Researchers
 
