@@ -6,7 +6,7 @@
 
 Two independent lines of research converge here:
 
-**Wasserman (2026)** showed that morphologically rich languages (French, Russian, Spanish) train dramatically more efficiently than morphologically poor languages (English, Chinese) on identical transformer architectures. French reaches grammatical competence at 197M tokens; English never reaches it through 4.3B tokens — a >20x efficiency gap driven entirely by linguistic structure. The question is whether this gap is inherent to the data or can be closed.
+**Wasserman (2026)** showed that morphologically rich languages (French, Russian, Spanish) train dramatically more efficiently than morphologically poor languages (English, Chinese) on identical transformer architectures. French reaches grammatical competence at 197M tokens; English never reaches it through 4.3B tokens, a >20x efficiency gap driven entirely by linguistic structure. The question is whether this gap is inherent to the data or can be closed.
 
 **Levin & Levin (2025)** developed [VM4AI](https://vm4ai.com) (Virtual Machine for AI), a geometry-aware cognitive controller that enforces specific topological constraints — Polytope, Sphere, Torus, Mobius, and others — on AI reasoning at inference time. VM4AI demonstrates that geometric structure shapes cognitive output: a Polytope topology produces rigid logical reasoning, while a Sphere topology enables fluid creative association. The framework operates as a client-side overlay across multiple AI platforms (OpenAI, Anthropic, xAI, Google, Microsoft).
 
@@ -28,9 +28,9 @@ The baseline in every case is natural language morphology, measured via WALS fea
 
 For each experiment, the outcome strengthens one of three interpretations:
 
-- **No effect on grammar** — Strengthens the Language-Only Hypothesis: structure must be in the data, not the training dynamics. No amount of geometric manipulation can substitute for morphological signal.
-- **Partial effect** — Geometric constraints approximate but don't fully replicate morphological advantage. The signal is partly in the data, partly in how the model processes it.
-- **Full effect** — Morphological advantage can be synthesized through training dynamics, connecting VM4AI's inference-time geometry to training-time optimization and opening the door to engineered linguistic structure for accelerated model training.
+- **No effect on grammar**: Strengthens the Language-Only Hypothesis: structure must be in the data, not the training dynamics. No amount of geometric manipulation can substitute for morphological signal.
+- **Partial effect**: Geometric constraints approximate but don't fully replicate morphological advantage. The signal is partly in the data, partly in how the model processes it.
+- **Full effect**: Morphological advantage can be synthesized through training dynamics, connecting VM4AI's inference-time geometry to training-time optimization and opening the door to engineered linguistic structure for accelerated model training.
 
 ### Pre-registrations
 
@@ -40,7 +40,7 @@ For each experiment, the outcome strengthens one of three interpretations:
 
 ## Researchers
 
-### Edward Levin — VM4AI
+### Edward Levin (VM4AI)
 
 Edward Levin is the architect of [VM4AI](https://vm4ai.com) (Virtual Machine for AI), a geometry-aware cognitive controller that applies topological constraints to structure AI reasoning. VM4AI defines eight cognitive topologies — Polytope, Sphere, Torus, Hive, Grid, Fork, Flux, and Mobius — each imposing a distinct geometric "shape of logic" on AI output. The framework includes Native Meaning Alignment (NMA) for semantic precision, a Hive architecture for simulated multi-agent consensus, and a Continuity Protocol for cross-platform state portability via MCP.
 

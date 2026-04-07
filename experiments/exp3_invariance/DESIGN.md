@@ -1,4 +1,6 @@
-# Exp3: Vector Invariance — Are Concept Coordinates Model-Independent?
+# Exp3: Vector Invariance
+
+## Are Concept Coordinates Model-Independent?
 
 ## Pre-registration
 
@@ -6,9 +8,9 @@
 
 ## 1. Motivation
 
-Wasserman (2026) argues that LLMs function as measurement instruments revealing cognitive structure already present in language — analogous to how telescopes reveal stars and microscopes reveal cells. The metaphor depends on a load-bearing assumption: that the thing being measured exists *independently* of any particular instrument.
+Wasserman (2026) argues that LLMs function as measurement instruments revealing cognitive structure already present in language, analogous to how telescopes reveal stars and microscopes reveal cells. The metaphor depends on a load-bearing assumption: that the thing being measured exists *independently* of any particular instrument.
 
-Levin (2025, VM4AI research notes) independently proposed that latent vectors for concepts may be model-invariant: a concept like "dog" should land at the same coordinate in latent space regardless of which model encodes it, because the vector represents a property of the concept rather than a property of the model. Levin's working hypothesis is that natural language input does not map 1:1 to latent vectors — there is a measurable distance between the surface form and the concept's "true" coordinate, and the parameter λ represents the pressure required to bridge that gap.
+Levin (2025, VM4AI research notes) independently proposed that latent vectors for concepts may be model-invariant: a concept like "dog" should land at the same coordinate in latent space regardless of which model encodes it, because the vector represents a property of the concept rather than a property of the model. Levin's working hypothesis is that natural language input does not map 1:1 to latent vectors. There is a measurable distance between the surface form and the concept's "true" coordinate, and the parameter λ represents the pressure required to bridge that gap.
 
 This experiment tests both claims simultaneously:
 
@@ -38,7 +40,7 @@ Existing evidence from Wasserman (2026) does not discriminate between these. Exp
 
 ### Why this matters for Levin's framework
 
-VM4AI's cognitive topologies operate on the assumption that there is a stable latent space to be navigated. If latent spaces are model-specific artifacts, then VM4AI's Polytope, Sphere, and other topologies are model-specific tools. If latent spaces are model-invariant, then VM4AI's topologies operate on a universal substrate — and the Topology Quantizer becomes a tool for navigating shared cognitive coordinates rather than per-model artifacts.
+VM4AI's cognitive topologies operate on the assumption that there is a stable latent space to be navigated. If latent spaces are model-specific artifacts, then VM4AI's Polytope, Sphere, and other topologies are model-specific tools. If latent spaces are model-invariant, then VM4AI's topologies operate on a universal substrate, and the Topology Quantizer becomes a tool for navigating shared cognitive coordinates rather than per-model artifacts.
 
 ### Available data
 
@@ -65,7 +67,7 @@ After Procrustes alignment, latent vectors for matched concepts converge across 
 Languages with higher WALS Agreement scores (predictors of training efficiency in exp8b) will show *tighter* convergence to the universal coordinates than languages with lower WALS Agreement. This connects vector invariance to morphological signal strength: better instruments produce sharper measurements.
 
 ### H3 (synthetic language prediction)
-Synthetic languages (synth_a-synth_d) will fall *along the WALS axis*, not as outliers. If vector invariance holds, even synthetic languages should converge on the same coordinates — supporting the claim that the universal substrate is independent of any particular linguistic surface form.
+Synthetic languages (synth_a-synth_d) will fall *along the WALS axis*, not as outliers. If vector invariance holds, even synthetic languages should converge on the same coordinates, supporting the claim that the universal substrate is independent of any particular linguistic surface form.
 
 ## 4. Experimental Design
 
@@ -170,7 +172,7 @@ This framework has direct implications for synthetic language design (Wasserman'
 
 ### If H1 is rejected
 
-Equally informative. We learn that latent invariance does not hold at 125M scale, which constrains both the Platonic Representation Hypothesis and Levin's working hypothesis to larger model scales. Wasserman's existing programme is not weakened — it just retains the current framing of language structure as the locus of measurement.
+Equally informative. We learn that latent invariance does not hold at 125M scale, which constrains both the Platonic Representation Hypothesis and Levin's working hypothesis to larger model scales. Wasserman's existing programme is not weakened. It just retains the current framing of language structure as the locus of measurement.
 
 The scientific value is in either direction.
 

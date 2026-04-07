@@ -1,4 +1,6 @@
-# Exp2: Sphere Loss — Can Representation Geometry Synthesize Morphological Advantage?
+# Exp2: Sphere Loss
+
+## Can Representation Geometry Synthesize Morphological Advantage?
 
 ## Pre-registration
 
@@ -6,11 +8,11 @@
 
 ## 1. Motivation
 
-In VM4AI's cognitive topology framework, the Polytope and Sphere are fundamentally different geometric shapes serving different purposes. The Polytope (Rigid/Logic) enforces hard edges and precise constraints — "no wiggle room." The Sphere (Fluid/Creative) is smooth and round — "ideas slide and connect easily." At inference time, these topologies produce measurably different cognitive outputs across VM4AI's user base.
+In VM4AI's cognitive topology framework, the Polytope and Sphere are fundamentally different geometric shapes serving different purposes. The Polytope (Rigid/Logic) enforces hard edges and precise constraints: "no wiggle room." The Sphere (Fluid/Creative) is smooth and round: "ideas slide and connect easily." At inference time, these topologies produce measurably different cognitive outputs across VM4AI's user base.
 
 Exp1 translates the Polytope topology into a training-time loss (attention entropy minimization). Exp2 does the same for the Sphere topology: constraining the *representation space itself* to live on a hypersphere, forcing the model to organize knowledge through angular relationships rather than magnitude.
 
-Edward Levin (VM4AI) hypothesizes that this may "mold morphology" by forcing grammatically related tokens into tight angular clusters — analogous to how French morphology naturally clusters inflected forms (mange/manges/mangent) through shared stems. He specifically recommends higher lambda values than Exp1, reflecting the Sphere's role as a more pervasive structural constraint.
+Edward Levin (VM4AI) hypothesizes that this may "mold morphology" by forcing grammatically related tokens into tight angular clusters, analogous to how French morphology naturally clusters inflected forms (mange/manges/mangent) through shared stems. He specifically recommends higher lambda values than Exp1, reflecting the Sphere's role as a more pervasive structural constraint.
 
 This is orthogonal to Exp1. Polytope Loss constrains the attention simplex; Sphere Loss constrains the representation manifold. They may affect different axes of the perplexity/accuracy space identified in Wasserman (2026).
 
@@ -20,7 +22,7 @@ This is orthogonal to Exp1. Polytope Loss constrains the attention simplex; Sphe
 
 Natural language semantics appear to be fundamentally directional. Word embedding research (word2vec, GloVe) showed that semantic relationships are captured by angular relationships between vectors, not by magnitudes. By constraining representations to a hypersphere:
 
-1. **Angular clustering**: Grammatically related tokens must cluster by angle, not magnitude. Verb conjugations, agreement forms, and case-marked nouns would be forced into angular neighborhoods — similar to how morphological paradigms organize related forms.
+1. **Angular clustering**: Grammatically related tokens must cluster by angle, not magnitude. Verb conjugations, agreement forms, and case-marked nouns would be forced into angular neighborhoods, similar to how morphological paradigms organize related forms.
 
 2. **Elimination of magnitude shortcuts**: Without magnitude as an encoding dimension, the model cannot "hide" grammatical information in vector norms. All structure must be encoded directionally, which may force more explicit structural organization.
 
@@ -81,7 +83,7 @@ Higher lambda values will be required compared to Exp1. Rationale: constraining 
 ### 4.1 Controlled variables (identical to Exp1 and exp8b)
 
 - **Architecture**: 125M GPT-2 style (12 layers, d_model=768, 12 heads, d_ff=3072)
-- **Tokenizer**: Exp8b joint BPE (50k vocab) — MUST NOT be retrained
+- **Tokenizer**: Exp8b joint BPE (50k vocab). MUST NOT be retrained.
 - **Optimizer**: AdamW, lr=6e-4, weight_decay=0.01
 - **Random seed**: 42
 - **Sequence length**: 512
@@ -94,7 +96,7 @@ Sphere Loss lambda. Two parameterizations matching Exp1 structure:
 
 **Lambda range**: TBD in consultation with Edward Levin. His recommendation is higher values than Exp1's 1.50-1.85 range. Preliminary range: 2.0-4.0 (to be finalized before pre-registration).
 
-**Arm 1 — BPE Fertility:**
+**Arm 1, BPE Fertility:**
 
 | Run | Language | Lambda | Purpose |
 |-----|----------|--------|---------|
@@ -103,7 +105,7 @@ Sphere Loss lambda. Two parameterizations matching Exp1 structure:
 | 3   | English  | TBD-high | Above threshold |
 | 7   | French   | TBD-mid | French control |
 
-**Arm 2 — WALS Composite:**
+**Arm 2, WALS Composite:**
 
 | Run | Language | Lambda | Purpose |
 |-----|----------|--------|---------|
@@ -116,11 +118,11 @@ Sphere Loss lambda. Two parameterizations matching Exp1 structure:
 
 Measured every 1000 steps:
 
-1. **Grammar probe accuracy** (primary outcome) — same probes as exp8b and Exp1
-2. **Validation perplexity** — held-out set from exp8b
-3. **Mean representation norm** — to verify the loss is actually constraining norms
-4. **Norm variance across layers** — to detect whether some layers resist the constraint
-5. **Training loss decomposition** — CE component vs sphere component separately
+1. **Grammar probe accuracy** (primary outcome): same probes as exp8b and Exp1
+2. **Validation perplexity**: held-out set from exp8b
+3. **Mean representation norm**: to verify the loss is actually constraining norms
+4. **Norm variance across layers**: to detect whether some layers resist the constraint
+5. **Training loss decomposition**: CE component vs sphere component separately
 
 ### 4.4 Run length
 
@@ -164,9 +166,9 @@ All results reported regardless of outcome. The cross-experiment comparison is t
 ## 6. Collaboration
 
 ### Edward Levin ([VM4AI](https://vm4ai.com))
-- Sphere Loss concept, derived from VM4AI's Sphere cognitive topology (Fluid/Creative — "a smooth, round shape; ideas slide and connect easily")
+- Sphere Loss concept, derived from VM4AI's Sphere cognitive topology (Fluid/Creative: "a smooth, round shape; ideas slide and connect easily")
 - Hypothesis that higher lambda values can "mold morphology" through angular clustering
-- Lambda range recommendation (TBD — Edward indicated higher values than Exp1's 1.50-1.85)
+- Lambda range recommendation (TBD; Edward indicated higher values than Exp1's 1.50-1.85)
 - VM4AI framework provides the theoretical grounding: if Sphere geometry shapes cognition at inference time, it should also shape learning at training time
 
 ### Adam Wasserman ([fractal-language](https://github.com/adamzwasserman/fractal-language))
@@ -184,14 +186,14 @@ All results reported regardless of outcome. The cross-experiment comparison is t
 
 Before finalizing pre-registration:
 
-1. What lambda range do you recommend for Sphere Loss? You mentioned "higher" — how much higher?
+1. What lambda range do you recommend for Sphere Loss? You mentioned "higher"; how much higher?
 2. Should the norm constraint apply to all layer outputs, or only specific layers (early/late)?
 3. Do you anticipate interaction effects if Polytope + Sphere are combined? (This would be Exp3.)
-4. In VM4AI, the Sphere topology uses NMA (Native Meaning Alignment) — is there an analogue we should incorporate into the training-time translation?
+4. In VM4AI, the Sphere topology uses NMA (Native Meaning Alignment). Is there an analogue we should incorporate into the training-time translation?
 
 ## 8. Follow-on Experiments
 
-- **Exp3 (potential)**: Combined Polytope + Sphere Loss — testing whether VM4AI's distinct topologies produce additive effects when applied simultaneously during training
+- **Exp3 (potential)**: Combined Polytope + Sphere Loss, testing whether VM4AI's distinct topologies produce additive effects when applied simultaneously during training
 - **Exp4 (potential)**: Apply the most effective geometric constraint to Chinese (most morphologically impoverished language in exp8b)
 
 ---

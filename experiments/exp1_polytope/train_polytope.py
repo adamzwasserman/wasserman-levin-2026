@@ -171,7 +171,7 @@ def attention_entropy(attn_weights_list):
     total_entropy = 0.0
     count = 0
     for attn_w in attn_weights_list:
-        # attn_w: (B, n_heads, T, T) — already softmaxed by nn.MultiheadAttention
+        # attn_w: (B, n_heads, T, T), already softmaxed by nn.MultiheadAttention
         # Clamp for numerical stability
         attn_w = attn_w.clamp(min=1e-9)
         entropy = -torch.sum(attn_w * torch.log(attn_w), dim=-1)  # (B, n_heads, T)

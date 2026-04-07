@@ -1,4 +1,6 @@
-# Exp1: Polytope Loss — Can Attention Entropy Minimization Synthesize Morphological Advantage?
+# Exp1: Polytope Loss
+
+## Can Attention Entropy Minimization Synthesize Morphological Advantage?
 
 ## Pre-registration
 
@@ -39,10 +41,10 @@ Where H is the Shannon entropy of the attention distribution across all heads an
 
 ### Two parameterizations of lambda
 
-**Arm 1 — BPE Fertility (Edward Levin / VM4AI):**
+**Arm 1, BPE Fertility (Edward Levin / VM4AI):**
 Lambda scaled by the ratio of BPE tokens to whitespace-delimited words. Languages that expand more under BPE tokenization (higher fertility) receive higher lambda, on the theory that tokenization fragmentation disrupts morphological signal and needs stronger correction.
 
-**Arm 2 — WALS Composite:**
+**Arm 2, WALS Composite:**
 Lambda scaled by morphological features from the World Atlas of Language Structures. Uses the composite score (22A VerbSynth + 29A Agreement + 21B TAM + 20A Fusion) identified in exp8b as the strongest predictor of training efficiency. This has direct theoretical grounding: the features that predict morphological advantage should also predict how much regularization is needed to simulate it.
 
 ## 3. Hypotheses
@@ -66,7 +68,7 @@ French grammar accuracy under Polytope Loss will not exceed its exp8b baseline (
 ### 4.1 Controlled variables (identical to exp8b)
 
 - **Architecture**: 125M GPT-2 style (12 layers, d_model=768, 12 heads, d_ff=3072)
-- **Tokenizer**: Exp8b joint BPE (50k vocab) — MUST NOT be retrained
+- **Tokenizer**: Exp8b joint BPE (50k vocab). MUST NOT be retrained.
 - **Optimizer**: AdamW, lr=6e-4, weight_decay=0.01
 - **Random seed**: 42
 - **Sequence length**: 512
@@ -77,7 +79,7 @@ French grammar accuracy under Polytope Loss will not exceed its exp8b baseline (
 
 The Polytope Loss lambda, parameterized two ways:
 
-**Arm 1 — BPE Fertility:**
+**Arm 1, BPE Fertility:**
 
 Lambda values based on Edward Levin's observed sweet spot range.
 
@@ -88,7 +90,7 @@ Lambda values based on Edward Levin's observed sweet spot range.
 | 3   | English  | 1.85   | Above sweet spot |
 | 7   | French   | 1.65   | Sweet spot (control) |
 
-**Arm 2 — WALS Composite:**
+**Arm 2, WALS Composite:**
 
 WALS composite scores from exp8b:
 - English: VerbSynth=2, Agreement=4, TAM=unknown, Fusion=2 → composite ~8
@@ -113,10 +115,10 @@ Note: HIGHER lambda for LOWER WALS scores (languages with less morphology need m
 
 Measured every 1000 steps:
 
-1. **Grammar probe accuracy** (primary outcome) — same probes as exp8b
-2. **Validation perplexity** — held-out set from exp8b
-3. **Mean attention entropy** — to verify the loss is actually affecting attention patterns
-4. **Training loss decomposition** — CE component vs polytope component separately
+1. **Grammar probe accuracy** (primary outcome): same probes as exp8b
+2. **Validation perplexity**: held-out set from exp8b
+3. **Mean attention entropy**: to verify the loss is actually affecting attention patterns
+4. **Training loss decomposition**: CE component vs polytope component separately
 
 ### 4.4 Run length
 
@@ -163,7 +165,7 @@ All results will be reported regardless of outcome. Null results are informative
 ## 6. Collaboration
 
 ### Edward Levin ([VM4AI](https://vm4ai.com))
-- Polytope Loss concept, derived from VM4AI's Polytope cognitive topology (Rigid/Logic — "a shape with hard edges, no wiggle room")
+- Polytope Loss concept, derived from VM4AI's Polytope cognitive topology (Rigid/Logic: "a shape with hard edges, no wiggle room")
 - Topology Quantizer tool for lambda visualization and code generation
 - BPE fertility parameterization and lambda sweet-spot analysis (1.50-1.85 range)
 - Core hypothesis: geometric training constraints can simulate morphological regularization
