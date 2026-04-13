@@ -60,7 +60,7 @@ Where ||h_l|| is the L2 norm of the hidden state output at layer l.
 
 ## 2.5 New evidence: BabyLM cross-linguistic transfer (Wasserman, 2026, unpublished)
 
-Concurrent experiments for the BabyLM 2026 submission ("Born Speaking French") provide new evidence that sharpens predictions for this experiment and, critically, transforms the Exp1/Exp2 interaction hypothesis (H2) from an open matrix into a directional prediction.
+Concurrent experiments for the BabyLM 2026 submission ("Right Tool, Right Job") provide new evidence that sharpens predictions for this experiment and, critically, transforms the Exp1/Exp2 interaction hypothesis (H2) from an open matrix into a directional prediction.
 
 A 125M GPT-2 trained exclusively on French (92M words) was tested on English benchmarks using a vocabulary bridge (FR-EN word translations, no grammar or fine-tuning). Results reveal a **transfer gradient**:
 

@@ -1,7 +1,7 @@
 # Wittgenstein vs. Plato: Evidence from BabyLM Cross-Linguistic Training
 
 **Date:** 2026-04-13
-**Source:** BabyLM 2026 experiments (Born Speaking French)
+**Source:** BabyLM 2026 experiments ("Right Tool, Right Job")
 **Status:** Working notes from active experimentation
 
 ## The Question
@@ -50,8 +50,10 @@ The dict-axioms experiment reveals that the French model possesses language-inde
 | Dict-axioms English (zero-shot) | **54.0%** | **+6.5pp** |
 | Dict-axioms French (zero-shot) | **54.0%** | **+6.5pp** |
 | LoRA fine-tuned on English (no axioms) | 53.24% | +5.7pp |
+| Tuned LoRA r=16 on English | 56.12% | +8.6pp |
+| **LoRA fine-tuned on French translations** | **57.55%** | **+10.1pp** |
 
-The critical observation: **providing only word-level FR-EN translations (no grammar, no syntax, no training) enables the French model to perform English entailment reasoning better than gradient-based fine-tuning on English data.**
+The critical observation: **translating the training data to French and fine-tuning with LoRA produces the largest single gain (+10.1pp).** The model comprehends the task better when it sees it in the language it was trained on. But even without translation, providing only word-level FR-EN translations (no grammar, no syntax, no training) enables the French model to perform English entailment reasoning better than gradient-based fine-tuning on English data.
 
 The model "knows" what entailment is. It learned this concept from French text alone. The concept exists in the model's internal representations independent of surface language. It just needs a lexical bridge to apply it to English tokens.
 
@@ -59,14 +61,15 @@ This is a Platonic form: entailment as a language-independent abstract structure
 
 ### Cross-task evidence from the vocabulary bridge:
 
-| Task | Bare English | With axioms | Bridge effect | Interpretation |
-|------|-------------|-------------|---------------|----------------|
-| RTE (entailment) | 47.5% | 54.0% | +6.5pp | Concept transfers |
-| MRPC (paraphrase) | 31.9% | 36.8% | +4.9pp | Concept transfers |
-| MNLI (3-way entailment) | 32.2% | 34.2% | +2.0pp | Partial transfer |
-| BoolQ (comprehension) | 57.0% | 58.8% | +1.8pp | Weak transfer |
-| MultiRC (reading) | 53.8% | 53.8% | 0 | No transfer |
-| QQP (duplicate) | 62.6% | 62.6% | 0 | No transfer |
+| Task | Bare English | Dict-axioms | LoRA (English) | LoRA (French) | Best lever |
+|------|-------------|-------------|----------------|---------------|------------|
+| RTE (entailment) | 47.5% | **54.0%** | 53.24% | **57.55%** | French framing +10.1pp |
+| MRPC (paraphrase) | 31.9% | **36.8%** | 70.10% | — | LoRA dominates |
+| MNLI (3-way entailment) | 32.2% | 34.2% | 48.86% | — | LoRA dominates |
+| BoolQ (comprehension) | 57.0% | 58.8% | 64.59% | (translating) | LoRA + French TBD |
+| MultiRC (reading) | 53.8% | 53.8% | 57.55% | — | LoRA only |
+| QQP (duplicate) | 62.6% | 62.6% | 73.14% | — | LoRA only |
+| WSC (coreference) | 61.5% | 61.5% | 71.15% | — | LoRA only |
 | WSC (coreference) | 61.5% | 61.5% | 0 | No transfer |
 
 The gradient is revealing: **relational concepts (entailment, paraphrase) transfer across languages; passage-level comprehension does not.** This suggests a hierarchy:

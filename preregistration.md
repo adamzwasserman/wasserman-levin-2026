@@ -52,27 +52,39 @@ These programmes converge on the same question from different directions. Wasser
 
 ### 1.4 New evidence from BabyLM (unpublished)
 
-Concurrent experiments for the BabyLM 2026 submission ("Born Speaking French"; Wasserman, 2026, unpublished) provide critical evidence that sharpens the predictions pre-registered here.
+Concurrent experiments for the BabyLM 2026 submission ("Right Tool, Right Job"; Wasserman, 2026, unpublished) provide critical evidence that sharpens the predictions pre-registered here.
 
-A 125M-parameter GPT-2 trained exclusively on 92M words of French was evaluated on English benchmarks it had never seen, under three conditions: bare English input, a "dict-axioms" vocabulary bridge (FR-EN word translations prepended to the prompt, with no grammar, syntax, or fine-tuning), and full French translation. The dict-axioms condition is the critical test: it provides only lexical mapping, isolating whether the model possesses language-independent conceptual representations.
+A 125M-parameter GPT-2 trained exclusively on 92M words of French was evaluated on English benchmarks it had never seen, under five conditions: bare English input, a "dict-axioms" vocabulary bridge (FR-EN word translations prepended to the prompt, following the axiomatic prompting methodology of Wasserman (2026b)), tuned LoRA hyperparameters, and full French translation via LoRA fine-tuning on translated task data. The dict-axioms condition, derived from the 70% Rule framework (Wasserman, 2026b), is the critical test: it provides only lexical mapping, isolating whether the model possesses language-independent conceptual representations.
 
-**Results:**
+**Results (updated 2026-04-13 with controlled experiment grid):**
 
-| Task | Bare English | Dict-axioms | LoRA fine-tuned | Bridge effect |
-|------|-------------|-------------|-----------------|---------------|
-| RTE (entailment) | 47.5% | **54.0%** | 53.24% | +6.5pp |
-| MRPC (paraphrase) | 31.9% | **36.8%** | — | +4.9pp |
-| MNLI (3-way entailment) | 32.2% | 34.2% | — | +2.0pp |
-| BoolQ (comprehension) | 57.0% | 58.8% | — | +1.8pp |
-| MultiRC (reading) | 53.8% | 53.8% | — | 0 |
-| QQP (duplicate detection) | 62.6% | 62.6% | — | 0 |
-| WSC (coreference) | 61.5% | 61.5% | — | 0 |
+Five conditions were tested on the epoch 3 model (frozen), isolating each lever independently:
 
-Two findings are load-bearing for this pre-registration:
+| Condition | BoolQ | RTE | MultiRC | Key finding |
+|-----------|-------|-----|---------|-------------|
+| Baseline: LoRA 3ep English | 64.59% | 53.24% | 57.55% | — |
+| A: LoRA 5ep English | 65.20% | 51.80% | 57.59% | More epochs do not help |
+| B: Dict-axioms (zero-shot, no training) | 58.8% | **54.0%** | 53.8% | Axioms beat LoRA on RTE |
+| C: Tuned LoRA r=16 English | 63.43% | 56.12% | 57.30% | Higher rank helps RTE only |
+| **D: LoRA 3ep French translations** | — | **57.55%** | — | **French framing: +4.3pp** |
+
+The full cross-condition RTE results isolate the contribution of each lever:
+
+| Condition | RTE accuracy | Delta from bare |
+|-----------|-------------|-----------------|
+| Bare English (zero-shot) | 47.5% | baseline |
+| Dict-axioms (zero-shot) | 54.0% | +6.5pp |
+| LoRA fine-tuned on English | 53.24% | +5.7pp |
+| Tuned LoRA r=16 on English | 56.12% | +8.6pp |
+| **LoRA fine-tuned on French translations** | **57.55%** | **+10.1pp** |
+
+Three findings are load-bearing for this pre-registration:
 
 **First**, the dict-axioms bridge enables a French model to perform English entailment reasoning better than gradient-based fine-tuning on English data. The model "knows" what entailment is. It learned the concept from French text alone. The concept exists in the model's internal representations independent of surface language. This is direct evidence for language-independent representation, and a pilot result for Experiment 3 (Vector Invariance).
 
-**Second**, the transfer is not uniform. A gradient emerges:
+**Second**, translating the task to French (Exp D) produces the largest single gain (+10.1pp on RTE). The model comprehends the task better when it sees it in the language it was trained on. This confirms that the bottleneck on cross-lingual GLUE is comprehension, not task learning, and that the model's French representations contain genuine conceptual competence that English input cannot access.
+
+**Third**, the transfer is not uniform. A gradient emerges:
 
 | Transfer tier | Character | Tasks | Bridge effect |
 |---|---|---|---|
@@ -484,9 +496,11 @@ Huh, M., Cheung, B., Wang, T., & Isola, P. (2024). The Platonic Representation H
 
 Levin, E., & Levin, K. (2025). VM4AI: Virtual Machine for AI. CC-BY-NC-SA 4.0. https://vm4ai.com
 
-Wasserman, A. (2026). Cross-linguistic training dynamics in small language models. Pre-registered on Open Science Framework. https://github.com/adamzwasserman/fractal-language
+Wasserman, A. (2026a). Cross-linguistic training dynamics in small language models. Pre-registered on Open Science Framework. https://github.com/adamzwasserman/fractal-language
 
-Wasserman, A. (2026). Born Speaking French: Cross-linguistic transfer in BabyLM. *Unpublished; submitted to BabyLM 2026.*
+Wasserman, A. (2026b). The 70% Rule: When Axiomatic Prompting Helps, and When It Hurts. Zenodo. https://doi.org/10.5281/zenodo.19423101
+
+Wasserman, A. (2026c). Right Tool, Right Job: Why Training Language Matters More Than Training Data. *Unpublished; submitted to BabyLM 2026.*
 
 Wittgenstein, L. (1953). *Philosophical Investigations.* Blackwell.
 

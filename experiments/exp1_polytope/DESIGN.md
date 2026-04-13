@@ -49,7 +49,7 @@ Lambda scaled by morphological features from the World Atlas of Language Structu
 
 ## 2.5 New evidence: BabyLM cross-linguistic transfer (Wasserman, 2026, unpublished)
 
-Concurrent experiments for the BabyLM 2026 submission ("Born Speaking French") provide new evidence that sharpens predictions for this experiment.
+Concurrent experiments for the BabyLM 2026 submission ("Right Tool, Right Job") provide new evidence that sharpens predictions for this experiment.
 
 A 125M GPT-2 trained exclusively on French (92M words) was tested on English benchmarks using a "dict-axioms" vocabulary bridge: simple FR-EN word translations prepended to the prompt, with no grammar, no syntax, and no fine-tuning. Results reveal a **transfer gradient** across GLUE tasks:
 
