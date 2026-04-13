@@ -59,7 +59,7 @@ A 125M GPT-2 trained exclusively on French (92M words) was tested on English ben
 | **Semantic** | MNLI (+2.0pp), BoolQ (+1.8pp) | Weak | Mixed |
 | **Discourse** | MultiRC (0), QQP (0), WSC (0) | None | Fluid, contextual |
 
-The critical finding: relational concepts (entailment, paraphrase) transfer cross-linguistically with only a lexical bridge, while discourse-level comprehension does not. This gradient maps directly onto VM4AI's topology distinction — Polytope (rigid/logic) corresponds to the tier that transfers; Sphere (fluid/creative) corresponds to the tier that does not.
+The critical finding: relational concepts (entailment, paraphrase) transfer cross-linguistically with only a lexical bridge, while discourse-level comprehension does not. This gradient maps directly onto VM4AI's topology distinction: Polytope (rigid/logic) corresponds to the tier that transfers; Sphere (fluid/creative) corresponds to the tier that does not.
 
 This evidence motivates a new directional prediction (H4) not present in the original design.
 

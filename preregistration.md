@@ -16,9 +16,9 @@ We pre-register three experiments testing whether geometric constraints applied 
 
 Two independent lines of research motivate this work. Wasserman (2026) established that morphologically rich languages train dramatically more efficiently than morphologically poor languages on identical architectures, with WALS morphological features predicting training efficiency at r=-0.88. Levin & Levin (2025) developed VM4AI, a geometry-aware cognitive controller demonstrating that topological constraints shape AI reasoning at inference time. Concurrent unpublished results from BabyLM 2026 experiments (Wasserman, 2026) reveal that a French-trained model possesses language-independent conceptual representations accessible via a simple vocabulary bridge, with a transfer gradient — relational concepts transfer strongly, discourse comprehension does not — that maps directly onto VM4AI's topology distinction between Polytope (rigid/logic) and Sphere (fluid/creative).
 
-Together, these findings suggest a synthesis: meaning is acquired through the structure of language (Wittgenstein) but represented as language-independent form (Plato). We test this synthesis through three experiments: (1) Polytope Loss — attention entropy minimization during training; (2) Sphere Loss — representation norm constraints during training; (3) Vector Invariance — cross-linguistic convergence of latent representations. We pre-register directional predictions for each experiment derived from the BabyLM transfer gradient, and specify the cross-experiment analysis plan that connects all three.
+Together, these findings suggest a synthesis: meaning is acquired through the structure of language (Wittgenstein) but represented as language-independent form (Plato). We test this synthesis through three experiments: (1) Polytope Loss, attention entropy minimization during training; (2) Sphere Loss, representation norm constraints during training; (3) Vector Invariance, cross-linguistic convergence of latent representations. We pre-register directional predictions for each experiment derived from the BabyLM transfer gradient, and specify the cross-experiment analysis plan that connects all three.
 
-This work is framed as a contribution to both machine learning and linguistics. We propose that language model training dynamics function as telemetry — measurement instruments that reveal properties already present in language, rather than generating novel linguistic behaviour. The experimental programme tests whether this telemetry reads out a universal cognitive substrate (Plato) or language-specific structure (Wittgenstein), with implications for how linguists might use language models as fieldwork instruments.
+This work is framed as a contribution to both machine learning and linguistics. We propose that language model training dynamics function as telemetry, measurement instruments that reveal properties already present in language, rather than generating novel linguistic behaviour. The experimental programme tests whether this telemetry reads out a universal cognitive substrate (Plato) or language-specific structure (Wittgenstein), with implications for how linguists might use language models as fieldwork instruments.
 
 ---
 
@@ -28,7 +28,7 @@ This work is framed as a contribution to both machine learning and linguistics. 
 
 Is meaning in the structure of language, or in the forms that language points to?
 
-This is not a new question. Wittgenstein (1953) argued that meaning is use — that what a word means is constituted by how it functions in language. Plato argued that meaning exists independently of any particular expression — that language points to forms that transcend it. The debate has continued for millennia because it has been, until now, empirically intractable. We cannot examine the meaning of a word independently of the language that expresses it.
+This is not a new question. Wittgenstein (1953) argued that meaning is use: that what a word means is constituted by how it functions in language. Plato argued that meaning exists independently of any particular expression: that language points to forms that transcend it. The debate has continued for millennia because it has been, until now, empirically intractable. We cannot examine the meaning of a word independently of the language that expresses it.
 
 Language models offer a new kind of evidence. A model trained exclusively on French, evaluated on English tasks it has never seen, either succeeds or fails. If it succeeds — if concepts learned through French structure are accessible in English — then something language-independent exists in the model's internal representations. If it fails, meaning may be more deeply bound to its linguistic medium than the Platonic view suggests.
 
@@ -38,7 +38,7 @@ We have both kinds of evidence, and the pattern they form is the basis for the e
 
 The framing of this work departs from the standard machine learning orientation. We are not trying to make models better. We are using models as measurement instruments to reveal properties of language.
 
-This claim rests on a specific observation: when identical 125M-parameter transformers are trained on matched corpora across 12 languages with every variable held constant except the training language, the resulting training dynamics — perplexity curves, grammar probe trajectories, tokens-to-threshold — correlate with typological properties catalogued independently by linguists in the World Atlas of Language Structures (WALS). The correlation is r=-0.88 for WALS VerbSynth and r=-0.78 for WALS Agreement (Wasserman, 2026). The model is not discovering these properties. It is reading them out — measuring the same thing that typological linguists measure through fieldwork, but through a different instrument.
+This claim rests on a specific observation: when identical 125M-parameter transformers are trained on matched corpora across 12 languages with every variable held constant except the training language, the resulting training dynamics — perplexity curves, grammar probe trajectories, tokens-to-threshold — correlate with typological properties catalogued independently by linguists in the World Atlas of Language Structures (WALS). The correlation is r=-0.88 for WALS VerbSynth and r=-0.78 for WALS Agreement (Wasserman, 2026). The model is not discovering these properties. It is reading them out, measuring the same thing that typological linguists measure through fieldwork, but through a different instrument.
 
 If this framing is correct, then the experiments pre-registered here are not primarily about model architecture or training techniques. They are about what the telemetry reveals: whether the cognitive structure that morphologically rich languages make visible exists independently of any particular language (Plato), or is constituted by the language itself (Wittgenstein).
 
@@ -46,7 +46,7 @@ If this framing is correct, then the experiments pre-registered here are not pri
 
 **Wasserman (2026)** conducted controlled cross-linguistic ablation experiments (exp8b) across 12 languages — English, French, Spanish, Finnish, Russian, Vietnamese, Chinese, and four synthetic languages — using identical 125M GPT-2 architectures, the same joint BPE tokenizer, the same hyperparameters, and the same training procedure. The central finding: morphological structure, not data quantity, determines training efficiency. French reaches grammatical competence in 6.1M tokens; English requires 22.5M tokens to reach the same threshold. At matched token counts, French achieves validation perplexity of 37.7 versus English's 74.4. WALS morphological features (VerbSynth, Agreement, TAM, Fusion) predict these differences with high fidelity.
 
-**Levin & Levin (2025)** developed VM4AI (Virtual Machine for AI), a geometry-aware cognitive controller that enforces topological constraints on AI reasoning. VM4AI defines cognitive topologies — Polytope (rigid, hard-edged, logical), Sphere (smooth, fluid, creative), and others — that measurably shape cognitive output at inference time. The key insight for this collaboration: if geometric structure shapes cognition at inference time, it may also shape learning at training time. Levin independently proposed that latent vectors for concepts may be model-invariant — that a concept occupies the same coordinate in latent space regardless of which model encodes it, because the vector represents a property of the concept, not a property of the model.
+**Levin & Levin (2025)** developed VM4AI (Virtual Machine for AI), a geometry-aware cognitive controller that enforces topological constraints on AI reasoning. VM4AI defines cognitive topologies — Polytope (rigid, hard-edged, logical), Sphere (smooth, fluid, creative), and others — that measurably shape cognitive output at inference time. The key insight for this collaboration: if geometric structure shapes cognition at inference time, it may also shape learning at training time. Levin independently proposed that latent vectors for concepts may be model-invariant: that a concept occupies the same coordinate in latent space regardless of which model encodes it, because the vector represents a property of the concept, not a property of the model.
 
 These programmes converge on the same question from different directions. Wasserman's data shows that linguistic structure determines how efficiently a model learns. Levin's framework proposes that geometric structure shapes what a model learns. Together, they ask: can geometric constraints replicate what linguistic structure provides naturally, and is the destination the same regardless of the path?
 
@@ -70,7 +70,7 @@ A 125M-parameter GPT-2 trained exclusively on 92M words of French was evaluated 
 
 Two findings are load-bearing for this pre-registration:
 
-**First**, the dict-axioms bridge enables a French model to perform English entailment reasoning better than gradient-based fine-tuning on English data. The model "knows" what entailment is. It learned the concept from French text alone. The concept exists in the model's internal representations independent of surface language. This is direct evidence for language-independent representation — and a pilot result for Experiment 3 (Vector Invariance).
+**First**, the dict-axioms bridge enables a French model to perform English entailment reasoning better than gradient-based fine-tuning on English data. The model "knows" what entailment is. It learned the concept from French text alone. The concept exists in the model's internal representations independent of surface language. This is direct evidence for language-independent representation, and a pilot result for Experiment 3 (Vector Invariance).
 
 **Second**, the transfer is not uniform. A gradient emerges:
 
@@ -86,9 +86,9 @@ This gradient maps directly onto VM4AI's topology distinction. Polytope (rigid/l
 
 The BabyLM evidence, combined with the exp8b cross-linguistic results, suggests a synthesis:
 
-**Wittgenstein is right about acquisition.** How a language structures its morphology determines how efficiently a model learns. French, with its gender agreement, verb conjugation, and morphological composition, creates a denser learning signal per token. Meaning is use — and French encodes more meaning in its patterns of use. The evidence: French at 92M words matches or exceeds what English achieves at 3B+ words on grammatical competence benchmarks.
+**Wittgenstein is right about acquisition.** How a language structures its morphology determines how efficiently a model learns. French, with its gender agreement, verb conjugation, and morphological composition, creates a denser learning signal per token. Meaning is use, and French encodes more meaning in its patterns of use. The evidence: French at 92M words matches or exceeds what English achieves at 3B+ words on grammatical competence benchmarks.
 
-**Plato is right about representation.** Once a concept is acquired, it exists as a language-independent form. Entailment learned through French is the same entailment tested in English. The concept is not constituted by French grammar — French grammar was merely the instrument that made it visible. The evidence: a vocabulary bridge (no grammar, no syntax, no training) is sufficient to access French-learned entailment for English tasks, outperforming gradient-based fine-tuning.
+**Plato is right about representation.** Once a concept is acquired, it exists as a language-independent form. Entailment learned through French is the same entailment tested in English. The concept is not constituted by French grammar; French grammar was merely the instrument that made it visible. The evidence: a vocabulary bridge (no grammar, no syntax, no training) is sufficient to access French-learned entailment for English tasks, outperforming gradient-based fine-tuning.
 
 | | Acquisition (learning) | Representation (knowledge) |
 |---|---|---|
@@ -130,7 +130,7 @@ All training experiments use the same architecture and configuration as exp8b (W
 
 **Validation perplexity:** Held-out set from exp8b, computed every 1,000 steps.
 
-**BabyLM suite** (for cross-referencing): BLiMP, BLiMP supplement, GLUE (7 tasks), EWoK, Entity Tracking — the same benchmarks used in the BabyLM experiments that motivate the sharpened predictions.
+**BabyLM suite** (for cross-referencing): BLiMP, BLiMP supplement, GLUE (7 tasks), EWoK, Entity Tracking (the same benchmarks used in the BabyLM experiments that motivate the sharpened predictions).
 
 ### 2.4 Reporting commitment
 
@@ -160,9 +160,9 @@ Where H is the Shannon entropy of the attention distribution across all heads an
 
 Two independent parameterizations of λ, enabling comparison of theoretically motivated scaling:
 
-**Arm 1 — BPE Fertility (Levin):** Lambda scaled by the ratio of BPE tokens to whitespace-delimited words. Languages that expand more under tokenization receive higher lambda, correcting for tokenization fragmentation. Values based on Levin's observed sweet-spot range: 1.50, 1.65, 1.85.
+**Arm 1, BPE Fertility (Levin):** Lambda scaled by the ratio of BPE tokens to whitespace-delimited words. Languages that expand more under tokenization receive higher lambda, correcting for tokenization fragmentation. Values based on Levin's observed sweet-spot range: 1.50, 1.65, 1.85.
 
-**Arm 2 — WALS Composite (Wasserman):** Lambda scaled by morphological features from WALS (22A VerbSynth + 29A Agreement + 21B TAM + 20A Fusion). Higher lambda for lower WALS scores (languages with less morphology need more regularization). Normalized to the same [1.50, 1.85] range for direct comparison with Arm 1.
+**Arm 2, WALS Composite (Wasserman):** Lambda scaled by morphological features from WALS (22A VerbSynth + 29A Agreement + 21B TAM + 20A Fusion). Higher lambda for lower WALS scores (languages with less morphology need more regularization). Normalized to the same [1.50, 1.85] range for direct comparison with Arm 1.
 
 ### 3.4 Run matrix
 
@@ -257,8 +257,8 @@ Same 8-run structure as Experiment 1 with lambda values TBD.
 
 **H2 (directional interaction with Exp1, from BabyLM transfer gradient):** Sphere Loss and Polytope Loss affect different dimensions of linguistic competence, corresponding to different tiers of the BabyLM transfer gradient:
 
-- **Polytope Loss** (Exp1) should preferentially improve relational/logical probes (agreement, binding, argument structure) — the tier that transfers cross-linguistically with a simple vocabulary bridge.
-- **Sphere Loss** (Exp2) should preferentially improve perplexity and discourse-level coherence (next-token prediction in extended context, naturalness of generation) — the tier that requires richer contextual representation and does not transfer via a vocabulary bridge.
+- **Polytope Loss** (Exp1) should preferentially improve relational/logical probes (agreement, binding, argument structure), the tier that transfers cross-linguistically with a simple vocabulary bridge.
+- **Sphere Loss** (Exp2) should preferentially improve perplexity and discourse-level coherence (next-token prediction in extended context, naturalness of generation), the tier that requires richer contextual representation and does not transfer via a vocabulary bridge.
 
 This replaces an undirected 2×2 possibility matrix with a falsifiable directional prediction. If both loss functions affect the same probes equally, the VM4AI topology distinction does not map onto the BabyLM transfer gradient, and the topologies are not targeting distinct aspects of linguistic structure.
 
@@ -286,7 +286,7 @@ Same as Experiment 1.
 
 Experiments 1 and 2 ask whether we can synthesize the path to the destination. Experiment 3 asks whether the destination is the same across languages.
 
-Levin (2025, VM4AI research notes) proposed that latent vectors for concepts may be model-invariant: a concept like "dog" should land at the same coordinate in latent space regardless of which model encodes it, because the vector represents a property of the concept rather than a property of the model. Levin's working hypothesis is that natural language input does not map 1:1 to latent vectors — there is a measurable distance between the surface form and the concept's "true" coordinate, and λ represents the pressure required to bridge that gap.
+Levin (2025, VM4AI research notes) proposed that latent vectors for concepts may be model-invariant: a concept like "dog" should land at the same coordinate in latent space regardless of which model encodes it, because the vector represents a property of the concept rather than a property of the model. Levin's working hypothesis is that natural language input does not map 1:1 to latent vectors: there is a measurable distance between the surface form and the concept's "true" coordinate, and λ represents the pressure required to bridge that gap.
 
 This hypothesis, if confirmed, would validate the foundational claim of the LLMs-as-telemetry framework: that what language models measure exists independently of any particular model, just as what a telescope measures exists independently of any particular telescope. It would also ground VM4AI's cognitive topologies in a universal substrate rather than model-specific artifacts.
 
@@ -430,7 +430,7 @@ If Experiments 1 or 2 show that geometric constraints can replicate morphologica
 
 ### 7.4 For synthetic language design
 
-The connection between geometric constraints (Levin) and morphological features (Wasserman) suggests that synthetic languages could be engineered to provide optimal training signal by design — languages whose morphological structure maps directly onto the geometric constraints that produce the best training dynamics. This connects to Wasserman's patent-pending work on morphological calibration and synthetic language training.
+The connection between geometric constraints (Levin) and morphological features (Wasserman) suggests that synthetic languages could be engineered to provide optimal training signal by design: languages whose morphological structure maps directly onto the geometric constraints that produce the best training dynamics. This connects to Wasserman's patent-pending work on morphological calibration and synthetic language training.
 
 ---
 

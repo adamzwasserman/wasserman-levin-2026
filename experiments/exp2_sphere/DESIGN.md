@@ -85,8 +85,8 @@ Sphere Loss produces English grammar accuracy >50% sustained over 3+ consecutive
 ### H2 (directional interaction with Exp1, from BabyLM transfer gradient)
 Sphere Loss and Polytope Loss affect **different dimensions of linguistic competence**, corresponding to different tiers of the BabyLM transfer gradient:
 
-- **Polytope Loss** (Exp1) should preferentially improve relational/logical probes (agreement, binding, argument structure) — the tier that transfers cross-linguistically.
-- **Sphere Loss** (Exp2) should preferentially improve **perplexity and discourse-level coherence** (next-token prediction in extended context, naturalness of generation) — the tier that requires richer contextual representation and does not transfer via a simple vocabulary bridge.
+- **Polytope Loss** (Exp1) should preferentially improve relational/logical probes (agreement, binding, argument structure), the tier that transfers cross-linguistically.
+- **Sphere Loss** (Exp2) should preferentially improve **perplexity and discourse-level coherence** (next-token prediction in extended context, naturalness of generation), the tier that requires richer contextual representation and does not transfer via a simple vocabulary bridge.
 
 This replaces the original undirected 2x2 matrix with a falsifiable prediction: if both loss functions affect the same probes equally, the VM4AI topology distinction does not map onto the BabyLM transfer gradient, and the topologies are not targeting distinct aspects of linguistic structure.
 

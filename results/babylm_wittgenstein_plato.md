@@ -101,8 +101,8 @@ Morphologically rich languages are better *teachers*, not because they contain d
 ## Raw Data
 
 All models and evaluation results are in `/Users/adam/dev/babylm/`:
-- `models_epoch3/chck_92M/` — best epoch for benchmarks
-- `models_epoch4/chck_92M/` — freshly trained
-- `models_epoch5_new/chck_92M/` — freshly trained
+- `models_epoch3/chck_92M/`: best epoch for benchmarks
+- `models_epoch4/chck_92M/`: freshly trained
+- `models_epoch5_new/chck_92M/`: freshly trained
 - Experiment results: see eval logs in `models_epoch3/eval_results.log` through `models_epoch5/eval_results.log`
 - Dict-axioms experiment: run on RunPod, results in session transcript

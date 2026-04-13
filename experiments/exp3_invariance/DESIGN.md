@@ -31,7 +31,7 @@ Exp3 tests whether the convergence holds at smaller scales (125M parameters) and
 
 Concurrent experiments for the BabyLM 2026 submission ("Born Speaking French") provide the strongest pre-existing evidence for this experiment's core hypothesis. A 125M GPT-2 trained exclusively on French (92M words) was tested on English benchmarks using a "dict-axioms" vocabulary bridge: simple FR-EN word translations prepended to the prompt, with no grammar, no syntax, and no fine-tuning.
 
-The French model achieved 54.0% accuracy on English RTE (recognizing textual entailment) — **exceeding LoRA fine-tuning on English data** (53.24%). This result is near-direct evidence that the French model's internal representation of entailment is geometrically compatible with English entailment. A simple lexical remapping was sufficient to activate it.
+The French model achieved 54.0% accuracy on English RTE (recognizing textual entailment), **exceeding LoRA fine-tuning on English data** (53.24%). This result is near-direct evidence that the French model's internal representation of entailment is geometrically compatible with English entailment. A simple lexical remapping was sufficient to activate it.
 
 Critically, the transfer was **not uniform across tasks**. A gradient emerged:
 
