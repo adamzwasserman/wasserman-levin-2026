@@ -61,7 +61,6 @@ Contact: wassermana@gmail.com | [fractal-language](https://github.com/adamzwasse
 ### Intellectual property
 
 - **VM4AI cognitive topologies and geometric engine**: Edward Levin & Karen Levin, CC-BY-NC-SA 4.0
-- **Morphological calibration methods and per-language lambda tuning**: Subject to provisional patents held by Adam Wasserman
 - **Joint experimental results**: Shared, with attribution to both researchers
 
 ## Structure

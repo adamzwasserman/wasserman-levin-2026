@@ -440,10 +440,6 @@ If Exp3 confirms vector invariance, VM4AI's cognitive topologies operate on a un
 
 If Experiments 1 or 2 show that geometric constraints can replicate morphological advantage, this opens a practical path: instead of requiring morphologically rich training data, practitioners could apply topology-specific loss functions calibrated to the structural properties their task requires. The WALS-derived lambda parameterization provides a principled scaling: languages with low morphological complexity need higher geometric regularization.
 
-### 7.4 For synthetic language design
-
-The connection between geometric constraints (Levin) and morphological features (Wasserman) suggests that synthetic languages could be engineered to provide optimal training signal by design: languages whose morphological structure maps directly onto the geometric constraints that produce the best training dynamics. This connects to Wasserman's patent-pending work on morphological calibration and synthetic language training.
-
 ---
 
 ## 8. Collaboration and Intellectual Property
@@ -468,7 +464,6 @@ The connection between geometric constraints (Levin) and morphological features 
 ### 8.2 Intellectual property
 
 - **VM4AI geometric engine and cognitive topologies:** Edward Levin & Karen Levin, CC-BY-NC-SA 4.0
-- **Morphological calibration methods and per-language lambda tuning:** Subject to provisional patents held by Adam Wasserman
 - **Joint experimental results:** Shared with attribution to both researchers
 
 ---

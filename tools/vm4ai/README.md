@@ -8,9 +8,9 @@ This instrument bridges the gap between empirical morphology and latent space dy
 We have identified a critical topological transition between **λ 1.50 - 1.65**. In this window, the latent space stabilizes into a central lattice cluster, providing the "exoskeleton" necessary for grammar emergence.
 
 ## 3. Synthetic Language Calibration
-The tool includes a **Manual Fertility Override** to allow researchers to simulate counterfactuals for **synthetic languages** (subject to Adam Wasserman's patent-pending calibration methods).
+The tool includes a **Manual Fertility Override** to allow researchers to simulate counterfactuals for **synthetic languages** (using Adam Wasserman's morphological calibration methods).
 
 ## 4. IP & Collaboration Terms
 * **Conceptual IP:** All concepts related to Morphological Calibration and the λ-Coefficient are the property of Adam Wasserman.
 * **Implementation IP:** The Polytope geometric engine and visualizer are the property of VM4AI (Edward Levin).
-* **Joint Venture:** These techniques are being merged for co-development and joint patent ownership in the field of synthetic language training.
+* **Joint Venture:** These techniques are being merged for co-development in the field of synthetic language training.

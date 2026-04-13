@@ -198,7 +198,7 @@ The combined Wasserman-Levin framework becomes a complete two-layer theory:
 | Universal substrate | Concepts and grammatical abstractions exist as model-invariant coordinates |
 | Linguistic surface | Vocabulary and morphology determine signal strength for reaching the substrate |
 
-This framework has direct implications for synthetic language design (Wasserman's patent work): a language can be engineered to map optimally onto the universal coordinates, minimizing the distance between surface form and conceptual destination.
+This framework has direct implications for synthetic language design: a language could be engineered to map optimally onto the universal coordinates, minimizing the distance between surface form and conceptual destination.
 
 ### If H1 is rejected
 

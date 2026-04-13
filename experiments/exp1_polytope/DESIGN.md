@@ -199,7 +199,6 @@ All results will be reported regardless of outcome. Null results are informative
 
 ### Intellectual property
 - VM4AI geometric engine and cognitive topologies: Edward Levin & Karen Levin, CC-BY-NC-SA 4.0
-- Morphological calibration methods and per-language lambda tuning: Subject to provisional patents held by Adam Wasserman
 - Joint experimental results: Shared with attribution to both researchers
 
 ## 7. Relation to Other Experiments

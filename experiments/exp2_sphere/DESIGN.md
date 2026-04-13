@@ -199,7 +199,6 @@ All results reported regardless of outcome. The cross-experiment comparison is t
 
 ### Intellectual property
 - VM4AI geometric engine and cognitive topologies: Edward Levin & Karen Levin, CC-BY-NC-SA 4.0
-- Morphological calibration methods and per-language lambda tuning: Subject to provisional patents held by Adam Wasserman
 - Joint experimental results: Shared with attribution to both researchers
 
 ## 7. Open Questions for Edward
