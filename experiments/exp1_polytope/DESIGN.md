@@ -47,6 +47,22 @@ Lambda scaled by the ratio of BPE tokens to whitespace-delimited words. Language
 **Arm 2, WALS Composite:**
 Lambda scaled by morphological features from the World Atlas of Language Structures. Uses the composite score (22A VerbSynth + 29A Agreement + 21B TAM + 20A Fusion) identified in exp8b as the strongest predictor of training efficiency. This has direct theoretical grounding: the features that predict morphological advantage should also predict how much regularization is needed to simulate it.
 
+## 2.5 New evidence: BabyLM cross-linguistic transfer (Wasserman, 2026, unpublished)
+
+Concurrent experiments for the BabyLM 2026 submission ("Born Speaking French") provide new evidence that sharpens predictions for this experiment.
+
+A 125M GPT-2 trained exclusively on French (92M words) was tested on English benchmarks using a "dict-axioms" vocabulary bridge: simple FR-EN word translations prepended to the prompt, with no grammar, no syntax, and no fine-tuning. Results reveal a **transfer gradient** across GLUE tasks:
+
+| Transfer tier | Tasks | Bridge effect | Character |
+|---|---|---|---|
+| **Relational/logical** | RTE (+6.5pp), MRPC (+4.9pp) | Strong | Rigid, structural |
+| **Semantic** | MNLI (+2.0pp), BoolQ (+1.8pp) | Weak | Mixed |
+| **Discourse** | MultiRC (0), QQP (0), WSC (0) | None | Fluid, contextual |
+
+The critical finding: relational concepts (entailment, paraphrase) transfer cross-linguistically with only a lexical bridge, while discourse-level comprehension does not. This gradient maps directly onto VM4AI's topology distinction — Polytope (rigid/logic) corresponds to the tier that transfers; Sphere (fluid/creative) corresponds to the tier that does not.
+
+This evidence motivates a new directional prediction (H4) not present in the original design.
+
 ## 3. Hypotheses
 
 ### H0 (null, from orthogonality finding)
@@ -62,6 +78,11 @@ If grammar improvement occurs, WALS-derived lambda produces equal or greater imp
 
 ### H3 (French control)
 French grammar accuracy under Polytope Loss will not exceed its exp8b baseline (87%). Morphologically rich languages already provide the regularization the loss term attempts to simulate; adding it artificially is redundant at best and harmful at worst (cf. exp8b interleaved EN/FR finding where mixing languages degraded French).
+
+### H4 (probe stratification, from BabyLM transfer gradient)
+If Polytope Loss improves grammar (H1 supported), the improvement will be **non-uniform across probe types**. Probes testing relational/logical structure (agreement, binding, argument structure) will improve before and more than probes testing discourse-level or pragmatic phenomena (filler-gap, island effects, garden-path recovery).
+
+**Basis**: The BabyLM dict-axioms experiment (Wasserman, 2026, unpublished) demonstrates that a French-trained model's relational/logical competence transfers cross-linguistically with only a vocabulary bridge, while discourse-level comprehension does not. If the Polytope topology corresponds to rigid/logical structure (as VM4AI posits), its training-time analogue should preferentially improve the same tier of linguistic competence that transfers cross-linguistically. This prediction is falsifiable: if Polytope Loss improves all probe types uniformly, the VM4AI topology-to-transfer mapping does not hold.
 
 ## 4. Experimental Design
 

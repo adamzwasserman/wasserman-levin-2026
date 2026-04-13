@@ -27,6 +27,22 @@ Huh et al. (2024) argue that as models scale, their internal representations con
 
 Exp3 tests whether the convergence holds at smaller scales (125M parameters) and across **language** rather than just architecture.
 
+### New evidence: BabyLM dict-axioms as a pilot for vector invariance (Wasserman, 2026, unpublished)
+
+Concurrent experiments for the BabyLM 2026 submission ("Born Speaking French") provide the strongest pre-existing evidence for this experiment's core hypothesis. A 125M GPT-2 trained exclusively on French (92M words) was tested on English benchmarks using a "dict-axioms" vocabulary bridge: simple FR-EN word translations prepended to the prompt, with no grammar, no syntax, and no fine-tuning.
+
+The French model achieved 54.0% accuracy on English RTE (recognizing textual entailment) — **exceeding LoRA fine-tuning on English data** (53.24%). This result is near-direct evidence that the French model's internal representation of entailment is geometrically compatible with English entailment. A simple lexical remapping was sufficient to activate it.
+
+Critically, the transfer was **not uniform across tasks**. A gradient emerged:
+
+| Transfer tier | Tasks | Bridge effect |
+|---|---|---|
+| **Relational/logical** | RTE (+6.5pp), MRPC (+4.9pp) | Strong |
+| **Semantic** | MNLI (+2.0pp), BoolQ (+1.8pp) | Weak |
+| **Discourse** | MultiRC (0), QQP (0), WSC (0) | None |
+
+This gradient directly informs Exp3 predictions: if latent vectors are invariant, the invariance should be **stratified by concept type**, with relational/logical concepts showing strongest convergence and discourse-level concepts showing weakest. This transforms H1 from a single threshold test into a structured prediction (see H4).
+
 ### Why this matters for Wasserman's programme
 
 Wasserman's published cross-linguistic results are consistent with two competing interpretations:
@@ -68,6 +84,19 @@ Languages with higher WALS Agreement scores (predictors of training efficiency i
 
 ### H3 (synthetic language prediction)
 Synthetic languages (synth_a-synth_d) will fall *along the WALS axis*, not as outliers. If vector invariance holds, even synthetic languages should converge on the same coordinates, supporting the claim that the universal substrate is independent of any particular linguistic surface form.
+
+### H4 (concept-type stratification, from BabyLM transfer gradient)
+Invariance scores will be **non-uniform across concept types**, stratified by the same gradient observed in the BabyLM dict-axioms experiment (Wasserman, 2026, unpublished):
+
+| Concept type | Predicted invariance | Basis |
+|---|---|---|
+| Relational/logical concepts (e.g., negation, causation, entailment-adjacent) | Highest (>0.7) | These transferred cross-linguistically with only a vocabulary bridge |
+| Concrete/semantic concepts (e.g., objects, actions, properties) | Moderate (0.5-0.7) | Partial transfer in BabyLM; well-grounded in shared sensory experience |
+| Discourse/pragmatic concepts (e.g., emphasis, hedging, politeness markers) | Lowest (<0.5) | No transfer in BabyLM; deeply embedded in language-specific conventions |
+
+This prediction refines H1 from a single mean threshold into a structured claim: the universal substrate is not uniform. Some concepts are more "Platonic" (language-independent) than others, and the hierarchy matches what the BabyLM cross-linguistic transfer experiments independently reveal.
+
+**Falsification**: If all concept types show equal invariance (flat across tiers), the BabyLM transfer gradient does not reflect underlying geometric structure, and VM4AI's topology distinctions do not map onto concept types.
 
 ## 4. Experimental Design
 
@@ -147,8 +176,9 @@ Mean cross-linguistic invariance score after Procrustes alignment, with 95% conf
 ### Secondary analyses
 1. WALS correlation (H2)
 2. Synthetic language behavior (H3)
-3. Concept-level analysis: which concepts show strongest invariance? Which are most language-specific?
-4. Layer-wise analysis: does invariance increase or decrease across model layers?
+3. **Concept-type stratification (H4)**: Partition the concept set into relational/logical, concrete/semantic, and discourse/pragmatic tiers. Test whether mean invariance scores decrease monotonically across tiers, as predicted by the BabyLM transfer gradient. Report per-tier means with bootstrap CIs.
+4. Concept-level analysis: which individual concepts show strongest invariance? Which are most language-specific?
+5. Layer-wise analysis: does invariance increase or decrease across model layers?
 
 ### Reporting commitment
 All results reported regardless of outcome. Null results are scientifically valuable: they constrain both Levin's vector invariance hypothesis and Wasserman's measurement-instrument framing. This experiment is structured to be informative under any outcome.

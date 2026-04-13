@@ -58,6 +58,22 @@ total_loss = CE(logits, labels) + lambda * sphere_penalty
 
 Where ||h_l|| is the L2 norm of the hidden state output at layer l.
 
+## 2.5 New evidence: BabyLM cross-linguistic transfer (Wasserman, 2026, unpublished)
+
+Concurrent experiments for the BabyLM 2026 submission ("Born Speaking French") provide new evidence that sharpens predictions for this experiment and, critically, transforms the Exp1/Exp2 interaction hypothesis (H2) from an open matrix into a directional prediction.
+
+A 125M GPT-2 trained exclusively on French (92M words) was tested on English benchmarks using a vocabulary bridge (FR-EN word translations, no grammar or fine-tuning). Results reveal a **transfer gradient**:
+
+| Transfer tier | Tasks | Bridge effect | Character |
+|---|---|---|---|
+| **Relational/logical** | RTE (+6.5pp), MRPC (+4.9pp) | Strong | Rigid, structural |
+| **Semantic** | MNLI (+2.0pp), BoolQ (+1.8pp) | Weak | Mixed |
+| **Discourse** | MultiRC (0), QQP (0), WSC (0) | None | Fluid, contextual |
+
+The key observation for Exp2: discourse-level comprehension — the tier that does *not* transfer via a simple vocabulary bridge — requires richer contextual representation. This is precisely the domain where VM4AI's Sphere topology (fluid/creative, "ideas slide and connect easily") operates. If Polytope constrains the logical tier (Exp1), Sphere should constrain the associative/discourse tier.
+
+This evidence allows us to replace the undirected Exp1/Exp2 interaction matrix with a specific directional prediction.
+
 ## 3. Hypotheses
 
 ### H0 (null)
@@ -66,11 +82,15 @@ Sphere Loss does not break the English grammar ceiling. Grammar accuracy remains
 ### H1 (alternative)
 Sphere Loss produces English grammar accuracy >50% sustained over 3+ consecutive checkpoints.
 
-### H2 (interaction with Exp1)
-Sphere Loss affects a different axis than Polytope Loss:
-- If Exp1 moves perplexity but not grammar, and Exp2 moves grammar but not perplexity → the two geometric constraints target different learning dimensions
-- If both move the same axis → the constraints are redundant
-- If neither moves grammar → geometric manipulation cannot substitute for linguistic structure (strongest support for Language-Only Hypothesis)
+### H2 (directional interaction with Exp1, from BabyLM transfer gradient)
+Sphere Loss and Polytope Loss affect **different dimensions of linguistic competence**, corresponding to different tiers of the BabyLM transfer gradient:
+
+- **Polytope Loss** (Exp1) should preferentially improve relational/logical probes (agreement, binding, argument structure) — the tier that transfers cross-linguistically.
+- **Sphere Loss** (Exp2) should preferentially improve **perplexity and discourse-level coherence** (next-token prediction in extended context, naturalness of generation) — the tier that requires richer contextual representation and does not transfer via a simple vocabulary bridge.
+
+This replaces the original undirected 2x2 matrix with a falsifiable prediction: if both loss functions affect the same probes equally, the VM4AI topology distinction does not map onto the BabyLM transfer gradient, and the topologies are not targeting distinct aspects of linguistic structure.
+
+**Basis**: The BabyLM dict-axioms experiment (Wasserman, 2026, unpublished) shows that relational concepts transfer cross-linguistically with rigid structure (vocabulary bridge), while discourse comprehension requires fluid contextual integration. VM4AI's Polytope (rigid) and Sphere (fluid) map onto exactly these two tiers.
 
 ### H3 (French control)
 French grammar accuracy under Sphere Loss will not exceed its exp8b baseline (87%).
