@@ -251,7 +251,13 @@ Where ||h_l|| is the L2 norm of the hidden state output at layer l.
 
 ### 4.3 Lambda parameterization
 
-Same two-arm structure as Experiment 1 (BPE Fertility and WALS Composite), with a higher lambda range. Levin recommends higher values than Exp1's 1.50–1.85, reflecting the Sphere's role as a more pervasive structural constraint. Preliminary range: 2.0–4.0, to be finalized with Levin before registration.
+Same two-arm structure as Experiment 1 (BPE Fertility and WALS Composite), but with a revised pressure schedule motivated by the role Sphere geometry is hypothesized to play.
+
+The original design assumed that Sphere Loss should use a higher lambda range than Polytope Loss, on the theory that constraining the representation manifold is a more pervasive intervention than constraining attention distributions. We revise that assumption here. The Sphere is not intended to compress representation indiscriminately. Its proposed function is to stabilize high-entropy, abstract, and interpretive structure by organizing it directionally. Because lambda pressure lowers entropy, an excessively high lambda may suppress exactly the regime Sphere geometry is meant to preserve.
+
+Accordingly, Exp2 now uses a low-start upward sweep rather than a fixed high-lambda range. The planned schedule begins at **1.30** and increases by **0.10** until performance reaches a cap or shows diminishing returns. This design treats lambda not as "more is better" pressure, but as a calibration variable: enough to induce angular organization, but not so much that representational diversity collapses.
+
+This revision yields a sharper falsifiable prediction. If Sphere geometry is genuinely useful for abstract language organization, performance should improve within a moderate-pressure band and then flatten or degrade once the entropy-reducing effect of lambda begins to over-regularize the representation space.
 
 ### 4.4 Run matrix
 
@@ -284,7 +290,7 @@ This replaces an undirected 2×2 possibility matrix with a falsifiable direction
 
 **H3 (French control):** French grammar accuracy under Sphere Loss will not exceed its exp8b baseline (87%).
 
-**H4 (lambda scaling):** Higher lambda values will be required compared to Experiment 1. Constraining the full representation space is a stronger intervention than constraining attention distributions.
+**H4 (lambda calibration):** Sphere Loss will exhibit a bounded effective pressure range. Performance should improve from a low starting lambda, reach a local optimum within a moderate band, and then flatten or degrade as additional pressure suppresses high-entropy representational structure. This prediction follows directly from the revised Sphere rationale: the goal is to organize abstract language directionally, not to maximize compression of the representation manifold.
 
 ### 4.7 Success criteria
 
@@ -292,7 +298,7 @@ Same as Experiment 1.
 
 ### 4.8 Open design questions (to be resolved before registration)
 
-1. Lambda range for Sphere Loss (Levin to specify)
+1. Whether the 1.30-start, +0.10 sweep should stop at a fixed ceiling or use an empirical stopping rule based on validation perplexity and probe saturation
 2. Whether the norm constraint should apply to all layer outputs or specific layers
 3. Whether NMA (Native Meaning Alignment) from VM4AI has a training-time analogue to incorporate
 
