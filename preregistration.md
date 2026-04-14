@@ -24,6 +24,12 @@ This work is framed as a contribution to both machine learning and linguistics. 
 
 ## 1. Introduction
 
+### 1.0 The prior
+
+Occam's razor suggests it is much more likely that 200 million humans collaboratively embedded cognition into languages over 100,000 years than that a few thousand researchers embedded cognition into silicon over a few decades. When we observe what appear to be "emergent capabilities" in large language models, the null hypothesis should be that the cognition is in the language, not in the architecture. This pre-registration tests that null hypothesis against the standard architectural account.
+
+We argue that the capabilities attributed to large language models are properties of natural language structure, not of neural networks or scale. The transformer is instrumentation — a replaceable measuring device that resolves structure already present in the training data. Like a microscope reveals cells it did not create, the model reveals linguistic structure it did not generate.
+
 ### 1.1 The question
 
 Is meaning in the structure of language, or in the forms that language points to?
