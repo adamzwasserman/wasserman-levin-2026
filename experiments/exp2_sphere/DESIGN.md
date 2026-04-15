@@ -12,7 +12,11 @@ In VM4AI's cognitive topology framework, the Polytope and Sphere are fundamental
 
 Exp1 translates the Polytope topology into a training-time loss (attention entropy minimization). Exp2 does the same for the Sphere topology: constraining the *representation space itself* to live on a hypersphere, forcing the model to organize knowledge through angular relationships rather than magnitude.
 
-Edward Levin (VM4AI) hypothesizes that this may "mold morphology" by forcing grammatically related tokens into tight angular clusters, analogous to how French morphology naturally clusters inflected forms (mange/manges/mangent) through shared stems. He specifically recommends higher lambda values than Exp1, reflecting the Sphere's role as a more pervasive structural constraint.
+Edward Levin (VM4AI) originally proposed that Sphere Loss would likely require higher lambda values than Exp1, reflecting the intuition that constraining the representation manifold is broader than constraining attention distributions. We revise that assumption here.
+
+The Sphere is not hypothesized to help by maximizing pressure. Its proposed role is to preserve and organize **high-entropy, abstract, interpretive structure** through angular relationships in representation space. Natural language, especially in its more abstract and less rigidly structured uses, is not low-entropy material. Because lambda pressure reduces entropy, an overly large Sphere penalty may over-compress the representational regime that Sphere geometry is meant to support.
+
+The revised hypothesis is therefore not that stronger pressure is better, but that Sphere Loss should operate within a bounded calibration band: enough pressure to induce directional organization, but not enough to collapse representational flexibility. This shifts Exp2 from a fixed high-lambda assumption to a scheduled sweep beginning at **1.30** and increasing by **0.10** until performance reaches a cap or begins to show diminishing returns.
 
 This is orthogonal to Exp1. Polytope Loss constrains the attention simplex; Sphere Loss constrains the representation manifold. They may affect different axes of the perplexity/accuracy space identified in Wasserman (2026).
 
@@ -36,7 +40,7 @@ Natural language semantics appear to be fundamentally directional. Word embeddin
 | Geometry | Simplex (probabilities) | Hypersphere (unit norm) |
 | Mechanism | Focus attention | Organize knowledge |
 | Per-layer? | Yes (each attention head) | Yes (each layer output) |
-| Edward's lambda recommendation | 1.50-1.85 | Higher (TBD with Edward) |
+| Edward's lambda recommendation | 1.50-1.85 | 1.30-start calibrated sweep (+0.10 increments) |
 
 ### Exp8b baselines (same tokenizer, same architecture)
 
@@ -95,8 +99,8 @@ This replaces the original undirected 2x2 matrix with a falsifiable prediction: 
 ### H3 (French control)
 French grammar accuracy under Sphere Loss will not exceed its exp8b baseline (87%).
 
-### H4 (lambda scaling)
-Higher lambda values will be required compared to Exp1. Rationale: constraining the full representation space is a stronger intervention than constraining attention distributions, so the model needs more pressure to reorganize.
+### H4 (lambda calibration)
+Sphere Loss will show a bounded effective pressure range rather than a monotonic benefit from larger lambda values. Starting from a low lambda, performance should improve up to a moderate band, then flatten or degrade once additional pressure begins to suppress the high-entropy representational structure Sphere geometry is intended to organize.
 
 ## 4. Experimental Design
 
@@ -112,27 +116,37 @@ Higher lambda values will be required compared to Exp1. Rationale: constraining 
 
 ### 4.2 Independent variable
 
-Sphere Loss lambda. Two parameterizations matching Exp1 structure:
+Sphere Loss lambda. Two parameterizations matching Exp1 structure.
 
-**Lambda range**: TBD in consultation with Edward Levin. His recommendation is higher values than Exp1's 1.50-1.85 range. Preliminary range: 2.0-4.0 (to be finalized before pre-registration).
+**Lambda schedule:** Rather than assuming that Sphere Loss requires a fixed high-pressure regime, Exp2 uses a calibrated upward sweep. The schedule begins at **1.30** and increases by **0.10** until performance reaches a cap or exhibits diminishing returns. This reflects the revised theoretical claim that Sphere geometry should organize high-entropy representation space without over-compressing it.
 
 **Arm 1, BPE Fertility:**
 
 | Run | Language | Lambda | Purpose |
 |-----|----------|--------|---------|
-| 1   | English  | TBD-low | Below threshold |
-| 2   | English  | TBD-mid | Predicted sweet spot |
-| 3   | English  | TBD-high | Above threshold |
-| 7   | French   | TBD-mid | French control |
+| 1   | English  | 1.30 | Low-start calibration |
+| 2   | English  | 1.40 | Upward sweep |
+| 3   | English  | 1.50 | Upward sweep |
+| 4   | English  | 1.60 | Upward sweep |
+| 5   | English  | 1.70 | Upward sweep |
+| 6   | English  | 1.80 | Upward sweep |
+| 7   | French   | 1.40 | French control |
+| 8   | French   | 1.50 | French control |
+
+This initial matrix can be trimmed or extended depending on compute budget and early saturation patterns. If a stronger contrast between fertility and WALS parameterization is preferred, the same sweep logic can be retained while assigning different mid-band values by language.
 
 **Arm 2, WALS Composite:**
 
 | Run | Language | Lambda | Purpose |
 |-----|----------|--------|---------|
-| 4   | English  | TBD-low | WALS low |
-| 5   | English  | TBD-mid | WALS midpoint |
-| 6   | English  | TBD-high | WALS high |
-| 8   | French   | TBD-mid | French control |
+| 9   | English  | 1.30 | WALS low-start calibration |
+| 10  | English  | 1.40 | WALS upward sweep |
+| 11  | English  | 1.50 | WALS upward sweep |
+| 12  | English  | 1.60 | WALS upward sweep |
+| 13  | English  | 1.70 | WALS upward sweep |
+| 14  | English  | 1.80 | WALS upward sweep |
+| 15  | French   | 1.40 | French control |
+| 16  | French   | 1.50 | French control |
 
 ### 4.3 Dependent variables
 
@@ -160,10 +174,27 @@ Same as Exp1:
 
 ### 4.6 Run matrix
 
-Same 8-run structure as Exp1 with lambda values TBD.
+| Run | Language | Arm | Lambda | Steps | Purpose |
+|-----|----------|-----|--------|-------|---------|
+| 1   | English  | Fertility | 1.30 | 100k | Low-start calibration |
+| 2   | English  | Fertility | 1.40 | 100k | Upward sweep |
+| 3   | English  | Fertility | 1.50 | 100k | Upward sweep |
+| 4   | English  | Fertility | 1.60 | 100k | Upward sweep |
+| 5   | English  | Fertility | 1.70 | 100k | Upward sweep |
+| 6   | English  | Fertility | 1.80 | 100k | Upward sweep |
+| 7   | French   | Fertility | 1.40 | 100k | French control |
+| 8   | French   | Fertility | 1.50 | 100k | French control |
+| 9   | English  | WALS | 1.30 | 100k | WALS low-start calibration |
+| 10  | English  | WALS | 1.40 | 100k | WALS upward sweep |
+| 11  | English  | WALS | 1.50 | 100k | WALS upward sweep |
+| 12  | English  | WALS | 1.60 | 100k | WALS upward sweep |
+| 13  | English  | WALS | 1.70 | 100k | WALS upward sweep |
+| 14  | English  | WALS | 1.80 | 100k | WALS upward sweep |
+| 15  | French   | WALS | 1.40 | 100k | French control |
+| 16  | French   | WALS | 1.50 | 100k | French control |
 
-**Total**: 8 runs x 100k steps = 800k steps
-**Estimated compute**: ~2 days on 2x RTX 4090
+**Total**: 16 runs x 100k steps = 1.6M steps
+**Estimated compute**: ~4 days on 2x RTX 4090
 
 ## 5. Analysis Plan
 
@@ -187,9 +218,9 @@ All results reported regardless of outcome. The cross-experiment comparison is t
 
 ### Edward Levin ([VM4AI](https://vm4ai.com))
 - Sphere Loss concept, derived from VM4AI's Sphere cognitive topology (Fluid/Creative: "a smooth, round shape; ideas slide and connect easily")
-- Hypothesis that higher lambda values can "mold morphology" through angular clustering
-- Lambda range recommendation (TBD; Edward indicated higher values than Exp1's 1.50-1.85)
-- VM4AI framework provides the theoretical grounding: if Sphere geometry shapes cognition at inference time, it should also shape learning at training time
+- Revised hypothesis that Sphere Loss should operate within a bounded calibration band rather than a fixed high-pressure regime
+- Proposed low-start lambda schedule beginning at 1.30 with +0.10 increments until performance flattens or degrades
+- VM4AI framework provides the theoretical grounding: if Sphere geometry shapes cognition at inference time, it should also shape learning at training time.
 
 ### Adam Wasserman ([fractal-language](https://github.com/adamzwasserman/fractal-language))
 - Cross-linguistic baselines from 12-language controlled ablation (exp8b)
@@ -205,10 +236,10 @@ All results reported regardless of outcome. The cross-experiment comparison is t
 
 Before finalizing pre-registration:
 
-1. What lambda range do you recommend for Sphere Loss? You mentioned "higher"; how much higher?
-2. Should the norm constraint apply to all layer outputs, or only specific layers (early/late)?
-3. Do you anticipate interaction effects if Polytope + Sphere are combined? (This would be Exp3.)
-4. In VM4AI, the Sphere topology uses NMA (Native Meaning Alignment). Is there an analogue we should incorporate into the training-time translation?
+1. Should the 1.30-start, +0.10 lambda sweep stop at a fixed ceiling, or should it terminate empirically once validation perplexity and probe gains flatten?
+2. Should the norm constraint apply to all layer outputs, or only specific layers (early vs late)?
+3. Do you anticipate interaction effects if Polytope + Sphere are combined? (This would become a later experiment.)
+4. In VM4AI, the Sphere topology uses NMA (Native Meaning Alignment). Is there a training-time analogue worth incorporating here?
 
 ## 8. Follow-on Experiments
 
@@ -217,6 +248,6 @@ Before finalizing pre-registration:
 
 ---
 
-*Design drafted: 2026-04-02*
-*Lambda values: TBD pending consultation with Edward Levin*
+*Design revised: 2026-04-15*
+*Lambda schedule updated to low-start calibrated sweep*
 *Adam Wasserman + Edward Levin (VM4AI)*
