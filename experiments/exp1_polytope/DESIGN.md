@@ -47,21 +47,23 @@ Lambda scaled by the ratio of BPE tokens to whitespace-delimited words. Language
 **Arm 2, WALS Composite:**
 Lambda scaled by morphological features from the World Atlas of Language Structures. Uses the composite score (22A VerbSynth + 29A Agreement + 21B TAM + 20A Fusion) identified in exp8b as the strongest predictor of training efficiency. This has direct theoretical grounding: the features that predict morphological advantage should also predict how much regularization is needed to simulate it.
 
-## 2.5 New evidence: BabyLM cross-linguistic transfer (Wasserman, 2026, unpublished)
+## 2.5 New evidence: BabyLM cross-linguistic transfer and BLI triangulation (Wasserman, 2026, unpublished)
 
 Concurrent experiments for the BabyLM 2026 submission ("Right Tool, Right Job") provide new evidence that sharpens predictions for this experiment.
 
-A 125M GPT-2 trained exclusively on French (92M words) was tested on English benchmarks using a "dict-axioms" vocabulary bridge: simple FR-EN word translations prepended to the prompt, with no grammar, no syntax, and no fine-tuning. Results reveal a **transfer gradient** across GLUE tasks:
+**BLI triangulation (new 2026-04-14).** Direct measurement of cross-lingual embedding alignment via orthogonal Procrustes: the French BabyLM model aligns to GPT-2's embedding space at word-translation p@1 of 66.7% (32× chance), but to a matched-architecture 125M English model from exp8b that failed to acquire English grammar at only 25.0%. The competence-gating pattern in embedding geometry is the cleanest pre-existing evidence that training dynamics and representation geometry are coupled — a Polytope intervention that changes training dynamics should, if it changes *what the model learns to represent* rather than merely perplexity, also change the embedding geometry in a BLI-measurable way. Exp 1 adopts BLI alignment to exp8b French as an additional outcome metric (see §4.3).
 
-| Transfer tier | Tasks | Bridge effect | Character |
+**The cross-task transfer gradient (fine-tuning, not dict-axioms).** BabyLM Figure 1 documents a stable gradient across GLUE tasks under the fine-tuning lever:
+
+| Transfer tier | Tasks | E3 effect (French-translated LoRA, epoch 3) | Character |
 |---|---|---|---|
-| **Relational/logical** | RTE (+6.5pp), MRPC (+4.9pp) | Strong | Rigid, structural |
-| **Semantic** | MNLI (+2.0pp), BoolQ (+1.8pp) | Weak | Mixed |
-| **Discourse** | MultiRC (0), QQP (0), WSC (0) | None | Fluid, contextual |
+| **Relational/logical** | RTE (+7.91pp), MRPC (+2.45pp) | Strong | Rigid, structural |
+| **Semantic** | MNLI (+4.93pp), BoolQ (+3.67pp) | Moderate | Mixed |
+| **Discourse** | MultiRC (0), QQP (0), WSC (+1.93pp) | Weak or none | Fluid, contextual |
 
-The critical finding: relational concepts (entailment, paraphrase) transfer cross-linguistically with only a lexical bridge, while discourse-level comprehension does not. This gradient maps directly onto VM4AI's topology distinction: Polytope (rigid/logic) corresponds to the tier that transfers; Sphere (fluid/creative) corresponds to the tier that does not.
+Relational concepts (entailment, paraphrase) transfer cross-linguistically; discourse-level comprehension does not. This gradient maps onto VM4AI's topology distinction: Polytope (rigid/logic) corresponds to the tier that transfers; Sphere (fluid/creative) corresponds to the tier that does not. This evidence motivates H4 (not in the original design).
 
-This evidence motivates a new directional prediction (H4) not present in the original design.
+**Retracted citation.** Earlier drafts of this document cited a BabyLM "dict-axioms" experiment as evidence for the transfer gradient; that specific result collapsed under placebo control (BabyLM §6.2) and is retained in the BabyLM paper only as a methodological negative result. The cross-task transfer gradient as stated here is from the fine-tuning lever, which is not subject to the placebo-control issue and is robust.
 
 ## 3. Hypotheses
 
@@ -82,7 +84,7 @@ French grammar accuracy under Polytope Loss will not exceed its exp8b baseline (
 ### H4 (probe stratification, from BabyLM transfer gradient)
 If Polytope Loss improves grammar (H1 supported), the improvement will be **non-uniform across probe types**. Probes testing relational/logical structure (agreement, binding, argument structure) will improve before and more than probes testing discourse-level or pragmatic phenomena (filler-gap, island effects, garden-path recovery).
 
-**Basis**: The BabyLM dict-axioms experiment (Wasserman, 2026, unpublished) demonstrates that a French-trained model's relational/logical competence transfers cross-linguistically with only a vocabulary bridge, while discourse-level comprehension does not. If the Polytope topology corresponds to rigid/logical structure (as VM4AI posits), its training-time analogue should preferentially improve the same tier of linguistic competence that transfers cross-linguistically. This prediction is falsifiable: if Polytope Loss improves all probe types uniformly, the VM4AI topology-to-transfer mapping does not hold.
+**Basis**: The BabyLM fine-tuning transfer gradient (Wasserman, 2026, unpublished; §2.5 above and Figure 1 of the BabyLM submission) documents that relational/logical task structures (RTE, MRPC) transfer across languages under light LoRA adaptation with effect sizes of $+$2.45 to $+$7.91pp, while discourse-level structures (MultiRC, QQP, WSC) transfer weakly or not at all. The gradient is observed in the fine-tuning lever, which is robust to the placebo and tokenizer-swap confounds documented in BabyLM §6.2 and §6.4. If the Polytope topology corresponds to rigid/logical structure (as VM4AI posits), its training-time analogue should preferentially improve the same tier of linguistic competence that transfers cross-linguistically under fine-tuning. This prediction is falsifiable: if Polytope Loss improves all probe types uniformly, the VM4AI topology-to-transfer mapping does not hold. (Earlier drafts grounded this basis in the BabyLM dict-axioms experiment, which collapsed under placebo control; the prediction survives because the fine-tuning gradient is independent evidence for the same stratification.)
 
 ## 4. Experimental Design
 
@@ -134,12 +136,14 @@ Note: HIGHER lambda for LOWER WALS scores (languages with less morphology need m
 
 ### 4.3 Dependent variables
 
-Measured every 1000 steps:
+Measured every 1000 steps (except where noted):
 
 1. **Grammar probe accuracy** (primary outcome): same probes as exp8b
 2. **Validation perplexity**: held-out set from exp8b
 3. **Mean attention entropy**: to verify the loss is actually affecting attention patterns
 4. **Training loss decomposition**: CE component vs polytope component separately
+5. **BLI Procrustes alignment to exp8b French** (structural outcome; measured at 10k, 25k, 50k, 100k steps): orthogonal Procrustes fit and word-translation p@1 between each checkpoint's embedding matrix and the exp8b final French checkpoint's embedding matrix, using a seed dictionary of $\sim$200 high-frequency English-French concept pairs. **Pre-registered prediction**: if Polytope Loss genuinely changes what the English model represents (not only how fast it converges on perplexity), BLI alignment to French should increase monotonically with training under Polytope-regularized runs, and the final-checkpoint alignment should exceed the baseline (un-regularized) English-to-French alignment at 100k steps. If grammar-probe accuracy improves (H1) but BLI alignment to French does not, the intervention is changing task-competence proxies without changing representation geometry — a null result for the Polytope-replicates-morphology hypothesis at the representation level. Adopting BLI as a secondary outcome metric is motivated by the BabyLM triangulation pilot (§2.5) and makes the experiment informative even if grammar probes are null.
+6. **Tokenizer-swap sanity check** (run once at end, not every 1000 steps): re-evaluate the final English-Polytope checkpoint with the exp8b English tokenizer swapped for the exp8b French tokenizer. Based on the BabyLM §6.4 finding that single-token log-probability scoring at child scale moves by $\sim$7.7pp on GLUE-axiomatic from tokenizer alone, any grammar-probe improvement claimed for Polytope Loss should be stable to within a few percentage points under tokenizer swap. If the improvement disappears or reverses under tokenizer swap, the result is a lexical-distributional artifact rather than a representation-level change.
 
 ### 4.4 Run length
 

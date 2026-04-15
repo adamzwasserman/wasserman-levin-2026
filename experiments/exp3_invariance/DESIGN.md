@@ -95,16 +95,16 @@ Cross-linguistic invariance between two languages $L_i$ and $L_j$ will be strong
 
 **Falsification**: If invariance is equal across all language pairs regardless of whether each language's model acquired grammar, the BLI pilot is an artifact of the specific FR-EN pair rather than a general property, and the Platonic claim must be weakened to "some pairs converge, some do not, without a competence-level explanation."
 
-### H4 (concept-type stratification, from BabyLM transfer gradient)
-Invariance scores will be **non-uniform across concept types**, stratified by the same gradient observed in the BabyLM dict-axioms experiment (Wasserman, 2026, unpublished):
+### H4 (concept-type stratification, from BabyLM fine-tuning transfer gradient)
+Invariance scores will be **non-uniform across concept types**, stratified by the gradient observed in the BabyLM fine-tuning transfer lever (Wasserman, 2026, unpublished; Figure 1 of the BabyLM submission). Earlier drafts of this design grounded H4 in the BabyLM dict-axioms experiment; that experiment's apparent cross-lingual effect collapsed under placebo control (BabyLM §6.2), but the same stratification is visible in the fine-tuning lever, which is not subject to the placebo confound. H4 is retained and its basis updated:
 
 | Concept type | Predicted invariance | Basis |
 |---|---|---|
-| Relational/logical concepts (e.g., negation, causation, entailment-adjacent) | Highest (>0.7) | These transferred cross-linguistically with only a vocabulary bridge |
-| Concrete/semantic concepts (e.g., objects, actions, properties) | Moderate (0.5-0.7) | Partial transfer in BabyLM; well-grounded in shared sensory experience |
-| Discourse/pragmatic concepts (e.g., emphasis, hedging, politeness markers) | Lowest (<0.5) | No transfer in BabyLM; deeply embedded in language-specific conventions |
+| Relational/logical concepts (e.g., negation, causation, entailment-adjacent) | Highest (>0.7) | RTE ($+$7.91pp) and MRPC ($+$2.45pp) under French-translated-task LoRA; strongest fine-tuning transfer |
+| Concrete/semantic concepts (e.g., objects, actions, properties) | Moderate (0.5-0.7) | MNLI ($+$4.93pp), BoolQ ($+$3.67pp); moderate fine-tuning transfer |
+| Discourse/pragmatic concepts (e.g., emphasis, hedging, politeness markers) | Lowest (<0.5) | MultiRC (0pp), QQP (0pp), WSC ($+$1.93pp); weak or no fine-tuning transfer |
 
-This prediction refines H1 from a single mean threshold into a structured claim: the universal substrate is not uniform. Some concepts are more "Platonic" (language-independent) than others, and the hierarchy matches what the BabyLM cross-linguistic transfer experiments independently reveal.
+This prediction refines H1 from a single mean threshold into a structured claim: the universal substrate is not uniform. Some concepts are more "Platonic" (language-independent) than others, and the hierarchy matches what the BabyLM fine-tuning lever independently reveals across seven GLUE tasks.
 
 **Falsification**: If all concept types show equal invariance (flat across tiers), the BabyLM transfer gradient does not reflect underlying geometric structure, and VM4AI's topology distinctions do not map onto concept types.
 

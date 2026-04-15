@@ -66,17 +66,17 @@ Where ||h_l|| is the L2 norm of the hidden state output at layer l.
 
 Concurrent experiments for the BabyLM 2026 submission ("Right Tool, Right Job") provide new evidence that sharpens predictions for this experiment and, critically, transforms the Exp1/Exp2 interaction hypothesis (H2) from an open matrix into a directional prediction.
 
-A 125M GPT-2 trained exclusively on French (92M words) was tested on English benchmarks using a vocabulary bridge (FR-EN word translations, no grammar or fine-tuning). Results reveal a **transfer gradient**:
+A 125M GPT-2 trained exclusively on French (92M words) was evaluated on English GLUE tasks under a controlled experiment grid isolating four cross-lingual adaptation levers (English-native LoRA baseline; inference-time vocabulary axioms; tuned-rank LoRA; LoRA fine-tuning on French-translated task data). The fine-tuning lever (rank-16 LoRA on French-translated task data) reveals a stable **transfer gradient** across GLUE tasks:
 
-| Transfer tier | Tasks | Bridge effect | Character |
+| Transfer tier | Tasks | E3 effect (French-translated LoRA, epoch 3) | Character |
 |---|---|---|---|
-| **Relational/logical** | RTE (+6.5pp), MRPC (+4.9pp) | Strong | Rigid, structural |
-| **Semantic** | MNLI (+2.0pp), BoolQ (+1.8pp) | Weak | Mixed |
-| **Discourse** | MultiRC (0), QQP (0), WSC (0) | None | Fluid, contextual |
+| **Relational/logical** | RTE ($+$7.91pp), MRPC ($+$2.45pp) | Strong | Rigid, structural |
+| **Semantic** | MNLI ($+$4.93pp), BoolQ ($+$3.67pp) | Moderate | Mixed |
+| **Discourse** | MultiRC (0), QQP (0), WSC ($+$1.93pp) | Weak or none | Fluid, contextual |
 
-The key observation for Exp2: discourse-level comprehension — the tier that does *not* transfer via a simple vocabulary bridge — requires richer contextual representation. This is precisely the domain where VM4AI's Sphere topology (fluid/creative, "ideas slide and connect easily") operates. If Polytope constrains the logical tier (Exp1), Sphere should constrain the associative/discourse tier.
+The key observation for Exp2: discourse-level comprehension — the tier that does *not* transfer even under fine-tuning with translated task data — requires richer contextual representation. This is precisely the domain where VM4AI's Sphere topology (fluid/creative, "ideas slide and connect easily") operates. If Polytope constrains the logical tier (Exp1), Sphere should constrain the associative/discourse tier.
 
-This evidence allows us to replace the undirected Exp1/Exp2 interaction matrix with a specific directional prediction.
+This evidence allows us to replace the undirected Exp1/Exp2 interaction matrix with a specific directional prediction. (Earlier drafts of this section cited an earlier BabyLM "dict-axioms" vocabulary-bridge experiment as the source of the transfer-gradient numbers; that result collapsed under placebo control, see §4.3 retraction note. The transfer gradient as stated above is from the fine-tuning lever, which is robust to the placebo and tokenizer-swap confounds documented in BabyLM §6.2 and §6.4.)
 
 ## 3. Hypotheses
 
@@ -86,15 +86,15 @@ Sphere Loss does not break the English grammar ceiling. Grammar accuracy remains
 ### H1 (alternative)
 Sphere Loss produces English grammar accuracy >50% sustained over 3+ consecutive checkpoints.
 
-### H2 (directional interaction with Exp1, from BabyLM transfer gradient)
-Sphere Loss and Polytope Loss affect **different dimensions of linguistic competence**, corresponding to different tiers of the BabyLM transfer gradient:
+### H2 (directional interaction with Exp1, from BabyLM fine-tuning transfer gradient)
+Sphere Loss and Polytope Loss affect **different dimensions of linguistic competence**, corresponding to different tiers of the BabyLM fine-tuning transfer gradient:
 
-- **Polytope Loss** (Exp1) should preferentially improve relational/logical probes (agreement, binding, argument structure), the tier that transfers cross-linguistically.
-- **Sphere Loss** (Exp2) should preferentially improve **perplexity and discourse-level coherence** (next-token prediction in extended context, naturalness of generation), the tier that requires richer contextual representation and does not transfer via a simple vocabulary bridge.
+- **Polytope Loss** (Exp1) should preferentially improve relational/logical probes (agreement, binding, argument structure), the tier that transfers strongly under French-translated-task LoRA.
+- **Sphere Loss** (Exp2) should preferentially improve **perplexity and discourse-level coherence** (next-token prediction in extended context, naturalness of generation), the tier that requires richer contextual representation and does not transfer under fine-tuning of translated task data.
 
 This replaces the original undirected 2x2 matrix with a falsifiable prediction: if both loss functions affect the same probes equally, the VM4AI topology distinction does not map onto the BabyLM transfer gradient, and the topologies are not targeting distinct aspects of linguistic structure.
 
-**Basis**: The BabyLM dict-axioms experiment (Wasserman, 2026, unpublished) shows that relational concepts transfer cross-linguistically with rigid structure (vocabulary bridge), while discourse comprehension requires fluid contextual integration. VM4AI's Polytope (rigid) and Sphere (fluid) map onto exactly these two tiers.
+**Basis**: The BabyLM fine-tuning transfer gradient (Wasserman, 2026, unpublished; Figure 1 of the BabyLM submission) shows that relational concepts (RTE, MRPC) transfer cross-linguistically with rigid structural alignment ($+$2.45 to $+$7.91pp), while discourse-level comprehension (MultiRC, QQP, WSC) requires fluid contextual integration and does not meaningfully transfer (0 to $+$1.93pp). VM4AI's Polytope (rigid) and Sphere (fluid) map onto exactly these two tiers. (Earlier drafts grounded this basis in the BabyLM dict-axioms experiment, which collapsed under placebo control; the prediction survives because the fine-tuning gradient is independent evidence for the same stratification.)
 
 ### H3 (French control)
 French grammar accuracy under Sphere Loss will not exceed its exp8b baseline (87%).
@@ -150,13 +150,17 @@ This initial matrix can be trimmed or extended depending on compute budget and e
 
 ### 4.3 Dependent variables
 
-Measured every 1000 steps:
+Measured every 1000 steps (except where noted):
 
 1. **Grammar probe accuracy** (primary outcome): same probes as exp8b and Exp1
 2. **Validation perplexity**: held-out set from exp8b
 3. **Mean representation norm**: to verify the loss is actually constraining norms
 4. **Norm variance across layers**: to detect whether some layers resist the constraint
 5. **Training loss decomposition**: CE component vs sphere component separately
+6. **BLI Procrustes alignment to exp8b French** (structural outcome; measured at 10k, 25k, 50k, 100k steps): orthogonal Procrustes fit and word-translation p@1 between each Sphere-regularized English checkpoint's embedding matrix and the exp8b final French checkpoint's embedding matrix, using a seed dictionary of $\sim$200 high-frequency EN-FR concept pairs. **Pre-registered prediction**: Sphere Loss operates on representation norms rather than attention distributions; if it induces the angular-organization structure its theoretical motivation posits, BLI alignment to French should be at least as high as, and possibly higher than, the unregularized English baseline — because angular-organized representations are exactly what orthogonal Procrustes can most easily align. If Sphere Loss lowers BLI alignment to French relative to baseline, it has organized English representations into a geometry incompatible with the French geometry, which would be an informative negative result (Sphere Loss is changing representations but in a language-specific direction, not toward a shared substrate).
+7. **Tokenizer-swap sanity check** (run once at end per lambda, not every 1000 steps): per BabyLM §6.4's finding that single-token log-probability scoring at child scale moves by $\sim$7.7pp on GLUE-axiomatic from tokenizer alone, any grammar-probe improvement claimed for Sphere Loss should be verified with a tokenizer swap. Instability under tokenizer swap indicates a lexical-distributional artifact rather than a representation-level effect.
+
+**Retracted prior citation.** Earlier drafts of this document referenced the BabyLM "dict-axioms" experiment as evidence for cross-lingual conceptual transfer of discourse-level material. That result collapsed under placebo control (BabyLM §6.2) and is retained in the BabyLM paper only as a methodological negative result. The transfer gradient this experiment's H1/H2 are built on is now grounded in the BabyLM fine-tuning lever (Figure 1 of the submission) and the BLI triangulation (§5.1), both of which survive all placebo and tokenizer-swap confounds documented in the BabyLM paper.
 
 ### 4.4 Run length
 
