@@ -261,9 +261,26 @@ This revision yields a sharper falsifiable prediction. If Sphere geometry is gen
 
 ### 4.4 Run matrix
 
-Same 8-run structure as Experiment 1 with lambda values TBD.
+| Run | Language | Arm | Lambda | Purpose |
+|-----|----------|-----|--------|---------|
+| 1 | English | Fertility | 1.30 | Low-start calibration |
+| 2 | English | Fertility | 1.40 | Upward sweep |
+| 3 | English | Fertility | 1.50 | Upward sweep |
+| 4 | English | Fertility | 1.60 | Upward sweep |
+| 5 | English | Fertility | 1.70 | Upward sweep |
+| 6 | English | Fertility | 1.80 | Upward sweep |
+| 7 | French | Fertility | 1.40 | French control |
+| 8 | French | Fertility | 1.50 | French control |
+| 9 | English | WALS | 1.30 | WALS low-start calibration |
+| 10 | English | WALS | 1.40 | WALS upward sweep |
+| 11 | English | WALS | 1.50 | WALS upward sweep |
+| 12 | English | WALS | 1.60 | WALS upward sweep |
+| 13 | English | WALS | 1.70 | WALS upward sweep |
+| 14 | English | WALS | 1.80 | WALS upward sweep |
+| 15 | French | WALS | 1.40 | French control |
+| 16 | French | WALS | 1.50 | French control |
 
-**Total:** 8 runs × 100,000 steps = 800k steps (~2 days on 2× RTX 4090)
+**Total:** 16 runs × 100,000 steps = 1.6M steps (~4 days on 2× RTX 4090)
 
 ### 4.5 Dependent variables (measured every 1,000 steps)
 
@@ -298,9 +315,9 @@ Same as Experiment 1.
 
 ### 4.8 Open design questions (to be resolved before registration)
 
-1. Whether the 1.30-start, +0.10 sweep should stop at a fixed ceiling or use an empirical stopping rule based on validation perplexity and probe saturation
-2. Whether the norm constraint should apply to all layer outputs or specific layers
-3. Whether NMA (Native Meaning Alignment) from VM4AI has a training-time analogue to incorporate
+1. Whether the 1.30-start, +0.10 sweep should stop at a fixed ceiling or use an empirical stopping rule based on validation perplexity and probe saturation.
+2. Whether the norm constraint should apply to all layer outputs or specific layers.
+3. Whether NMA (Native Meaning Alignment) from VM4AI has a training-time analogue to incorporate.
 
 ---
 
@@ -450,7 +467,7 @@ If Exp3 confirms vector invariance, VM4AI's cognitive topologies operate on a un
 
 ### 7.3 For language model training
 
-If Experiments 1 or 2 show that geometric constraints can replicate morphological advantage, this opens a practical path: instead of requiring morphologically rich training data, practitioners could apply topology-specific loss functions calibrated to the structural properties their task requires. The WALS-derived lambda parameterization provides a principled scaling: languages with low morphological complexity need higher geometric regularization.
+If Experiments 1 or 2 show that geometric constraints can replicate morphological advantage, this opens a practical path: instead of requiring morphologically rich training data, practitioners could apply topology-specific loss functions calibrated to the structural properties their task requires. For Polytope-style constraints, WALS-derived scaling provides a principled regularization prior. For Sphere-style constraints, the relevant question may be not maximal pressure, but calibration within a bounded range that preserves high-entropy representational structure.
 
 ---
 
@@ -486,7 +503,7 @@ If Experiments 1 or 2 show that geometric constraints can replicate morphologica
 |---|---|---|---|
 | Pre-registration | File on OSF | — | Before first run |
 | Exp1 training | 8 runs × 100k steps | ~2 days on 2× RTX 4090 | Week 1 |
-| Exp2 training | 8 runs × 100k steps | ~2 days on 2× RTX 4090 | Week 2 |
+| Exp2 training | 16 runs × 100k steps | ~4 days on 2× RTX 4090 | Week 2 |
 | Exp3 analysis | Embedding extraction + alignment | <$10 (no training) | Week 1 (parallel) |
 | Cross-experiment analysis | Sections 6.1–6.3 | CPU only | Week 3 |
 | Write-up | — | — | Week 4 |
